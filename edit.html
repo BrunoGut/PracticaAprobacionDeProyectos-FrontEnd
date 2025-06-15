@@ -37,8 +37,8 @@
         <input type="text" class="form-control" id="description" name="description" placeholder="Nueva descripción" />
       </div>
       <div class="mb-3">
-        <label for="estimatedDuration" class="form-label">Duración Estimada (días)</label>
-        <input type="number" class="form-control" id="estimatedDuration" name="estimatedDuration" placeholder="Ej: 10" />
+        <label for="duration" class="form-label">Duración Estimada (días)</label>
+        <input type="number" class="form-control" id="duration" name="duration" placeholder="Ej: 10" />
       </div>
       <button type="submit" class="btn btn-success">Guardar cambios</button>
     </form>
@@ -50,12 +50,13 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/config.js"></script>
   <script src="js/forms.js"></script>
   <script>
     setupForm({
       formId: 'editForm',
-      endpoint: 'https://localhost:7062/api/Project/{id}',
-      method: 'PUT',
+      endpoint: `${API_BASE_URL}/api/Project/{id}`,
+      method: 'PATCH',
       pathParams: ['id'],
       renderResult: (data, div) => {
         div.innerHTML =

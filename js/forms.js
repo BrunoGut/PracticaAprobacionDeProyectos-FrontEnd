@@ -10,7 +10,7 @@ function setupForm(config) {
       for (const [key, value] of formData.entries()) {
         const input = form.elements[key];
         if (input && input.type === 'number') {
-          payload[key] = Number(value);
+          payload[key] = value.trim() === '' ? null : Number(value);
         } else {
           payload[key] = value;
         }
