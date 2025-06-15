@@ -56,7 +56,17 @@
       formId: 'editForm',
       endpoint: 'https://localhost:7062/api/Project/{id}',
       method: 'PUT',
-      pathParams: ['id']
+      pathParams: ['id'],
+      renderResult: (data, div) => {
+        div.innerHTML =
+          '<div class="alert alert-success d-flex align-items-center">' +
+          '<i class="bi bi-pencil-fill me-2"></i>' +
+          'Proyecto actualizado' +
+          '</div>' +
+          '<pre>' +
+          JSON.stringify(data, null, 2) +
+          '</pre>';
+      }
     });
   </script>
 </body>

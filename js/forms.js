@@ -37,17 +37,21 @@ function setupForm(config) {
             body: JSON.stringify(payload)
           });
         }
-        if (!resp.ok) {
-          const text = await resp.text();
-          resultDiv.textContent = `Error ${resp.status}: ${text}`;
-          resultDiv.classList.add('error');
-        } else {
-          const data = await resp.json();
-          resultDiv.textContent = '✅ Operación exitosa:\n' + JSON.stringify(data, null, 2);
-          resultDiv.classList.remove('error');
-          resultDiv.classList.add('success');
-          form.reset();
-        }
+          if (!resp.ok) {
+            const text = await resp.text();
+            resultDiv.textContent = `Error ${resp.status}: ${text}`;
+            resultDiv.classList.add('error');
+          } else {
+            const data = await resp.json();
+            resultDiv.classList.remove('error');
+            resultDiv.classList.add('success');
+            if (typeof config.renderResult === 'function') {
+              config.renderResult(data, resultDiv);
+            } else {
+              resultDiv.textContent = '✅ Operación exitosa:\n' + JSON.stringify(data, null, 2);
+            }
+            form.reset();
+          }
       } catch (err) {
         resultDiv.textContent = `Error de red: ${err.message}`;
         resultDiv.classList.add('error');

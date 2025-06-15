@@ -63,6 +63,19 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/forms.js"></script>
-  <script>setupForm({formId: 'createForm', endpoint: 'https://localhost:7062/api/Project', method: 'POST'});</script>
+  <script>
+    setupForm({
+      formId: 'createForm',
+      endpoint: 'https://localhost:7062/api/Project',
+      method: 'POST',
+      renderResult: (data, div) => {
+        div.innerHTML =
+          '<div class="alert alert-success d-flex align-items-center">' +
+          '<i class="bi bi-check-circle-fill me-2"></i>' +
+          'Proyecto creado correctamente' +
+          '</div>';
+      }
+    });
+  </script>
 </body>
 </html>

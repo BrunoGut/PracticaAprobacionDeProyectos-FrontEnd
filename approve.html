@@ -60,7 +60,15 @@
       formId: 'approveForm',
       endpoint: 'https://localhost:7062/api/Project/{id}/decision',
       method: 'PUT',
-      pathParams: ['id']
+      pathParams: ['id'],
+      renderResult: (data, div) => {
+        const decision = data.state || data.decision || '';
+        div.innerHTML =
+          '<div class="alert alert-info d-flex align-items-center">' +
+          '<i class="bi bi-info-circle-fill me-2"></i>' +
+          'Se tomó la decisión: ' + decision +
+          '</div>';
+      }
     });
   </script>
 </body>
