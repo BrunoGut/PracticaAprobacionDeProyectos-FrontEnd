@@ -62,11 +62,12 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/config.js"></script>
   <script src="js/forms.js"></script>
   <script>
     setupForm({
       formId: 'createForm',
-      endpoint: 'https://localhost:7062/api/Project',
+      endpoint: `${API_BASE_URL}/api/Project`,
       method: 'POST',
       renderResult: (data, div) => {
         div.innerHTML =
