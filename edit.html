@@ -26,7 +26,7 @@
     <form id="editForm" class="form">
       <div class="mb-3">
         <label for="id" class="form-label">ID Proyecto</label>
-        <input type="number" class="form-control" id="id" name="id" placeholder="ID del proyecto" />
+        <input type="text" class="form-control" id="id" name="id" placeholder="ID del proyecto" />
       </div>
       <div class="mb-3">
         <label for="title" class="form-label">Título</label>
@@ -58,15 +58,23 @@
       endpoint: `${API_BASE_URL}/api/Project/{id}`,
       method: 'PATCH',
       pathParams: ['id'],
-      renderResult: (data, div) => {
+      renderResult: async (data, div) => {
+        const id = document.getElementById('id').value;
         div.innerHTML =
           '<div class="alert alert-success d-flex align-items-center">' +
           '<i class="bi bi-pencil-fill me-2"></i>' +
           'Proyecto actualizado' +
-          '</div>' +
-          '<pre>' +
-          JSON.stringify(data, null, 2) +
-          '</pre>';
+          '</div>';
+        try {
+          const resp = await fetch(`${API_BASE_URL}/api/Project/${id}`);
+          if (resp.ok) {
+            const project = await resp.json();
+            div.innerHTML +=
+              '<div class="card mt-3"><div class="card-body"><pre>' +
+              JSON.stringify(project, null, 2) +
+              '</pre></div></div>';
+          }
+        } catch {}
       }
     });
   </script>
