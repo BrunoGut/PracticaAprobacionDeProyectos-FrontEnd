@@ -12,6 +12,26 @@ body {
 }
 
 /* Navegación - los estilos principales provienen de Bootstrap */
+nav.navbar .nav-link {
+  position: relative;
+  transition: color 0.3s;
+}
+nav.navbar .nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  transition: width 0.3s;
+}
+nav.navbar .nav-link:hover {
+  color: #fffbcc;
+}
+nav.navbar .nav-link:hover::after {
+  width: 100%;
+}
 
 /* Main y secciones */
 .section {
@@ -64,4 +84,16 @@ body {
 }
 .footer__text {
   color: #666;
+}
+
+.hero-img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: transform 0.3s;
+}
+.hero-img:hover {
+  transform: scale(1.05);
 }

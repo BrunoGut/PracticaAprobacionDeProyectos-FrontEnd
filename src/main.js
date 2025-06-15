@@ -2,12 +2,14 @@ const sectionsData = [
   {
     id: 'home',
     title: 'Bienvenido',
-    html: '<p class="lead">Utiliza la aplicación para crear y administrar proyectos de manera sencilla.</p>'
+    html: '<img src="https://source.unsplash.com/1200x300/?office" class="hero-img" alt="office"/><p class="lead">Utiliza la aplicación para crear y administrar proyectos de manera sencilla.</p>'
   },
   {
     id: 'create-project',
     title: 'Crear Nuevo Proyecto',
     endpoint: 'https://localhost:7062/api/Project',
+    method: 'POST',
+    submitText: 'Crear proyecto',
     fields: [
       { label: 'Título', name: 'title', type: 'text', placeholder: 'Título del proyecto' },
       { label: 'Descripción', name: 'description', type: 'text', placeholder: 'Descripción' },
@@ -16,6 +18,39 @@ const sectionsData = [
       { label: 'ID Área', name: 'areaId', type: 'number', placeholder: 'Ej: 1' },
       { label: 'ID Usuario', name: 'user', type: 'number', placeholder: 'Ej: 4' },
       { label: 'ID Tipo', name: 'typeId', type: 'number', placeholder: 'Ej: 1' }
+    ]
+  },
+  {
+    id: 'edit-project',
+    title: 'Editar Proyecto',
+    endpoint: 'https://localhost:7062/api/Project',
+    method: 'PUT',
+    submitText: 'Guardar cambios',
+    fields: [
+      { label: 'ID Proyecto', name: 'id', type: 'number', placeholder: 'ID del proyecto' },
+      { label: 'Título', name: 'title', type: 'text', placeholder: 'Nuevo título' },
+      { label: 'Descripción', name: 'description', type: 'text', placeholder: 'Nueva descripción' }
+    ]
+  },
+  {
+    id: 'approve-project',
+    title: 'Aprobar Proyecto',
+    endpoint: 'https://localhost:7062/api/Project/approve',
+    method: 'PUT',
+    submitText: 'Aprobar',
+    fields: [
+      { label: 'ID Proyecto', name: 'projectId', type: 'number', placeholder: 'ID' },
+      { label: 'Paso', name: 'step', type: 'text', placeholder: 'Paso a aprobar' }
+    ]
+  },
+  {
+    id: 'search-project',
+    title: 'Buscar Proyecto',
+    endpoint: 'https://localhost:7062/api/Project/search',
+    method: 'GET',
+    submitText: 'Buscar',
+    fields: [
+      { label: 'Filtro', name: 'term', type: 'text', placeholder: 'Ingrese búsqueda' }
     ]
   }
 ];
@@ -64,7 +99,7 @@ const render = () => {
       // botón de envío
       const btn = document.createElement('button');
       btn.type = 'submit';
-      btn.textContent = 'Crear proyecto';
+      btn.textContent = sectionData.submitText || 'Enviar';
       btn.classList.add('btn', 'btn-success');
       form.appendChild(btn);
 
@@ -83,18 +118,24 @@ const render = () => {
         });
 
       try {
-        const resp = await fetch(sectionData.endpoint, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
+        let resp;
+        if (sectionData.method === 'GET') {
+          const query = new URLSearchParams(payload).toString();
+          resp = await fetch(`${sectionData.endpoint}?${query}`);
+        } else {
+          resp = await fetch(sectionData.endpoint, {
+            method: sectionData.method || 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+        }
         if (!resp.ok) {
           const text = await resp.text();
           resultDiv.textContent = `Error ${resp.status}: ${text}`;
           resultDiv.classList.add('error');
         } else {
           const data = await resp.json();
-          resultDiv.textContent = '✅ Proyecto creado:\n' + JSON.stringify(data, null, 2);
+          resultDiv.textContent = '✅ Operación exitosa:\n' + JSON.stringify(data, null, 2);
           resultDiv.classList.remove('error');
           resultDiv.classList.add('success');
           form.reset();
