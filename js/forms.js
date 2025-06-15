@@ -15,13 +15,23 @@ function setupForm(config) {
           payload[key] = value;
         }
       }
+
+      let endpoint = config.endpoint;
+      if (config.pathParams) {
+        for (const param of config.pathParams) {
+          const val = payload[param];
+          endpoint = endpoint.replace(`{${param}}`, encodeURIComponent(val));
+          delete payload[param];
+        }
+      }
+
       try {
         let resp;
         if (config.method === 'GET') {
           const query = new URLSearchParams(payload).toString();
-          resp = await fetch(`${config.endpoint}?${query}`);
+          resp = await fetch(query ? `${endpoint}?${query}` : endpoint);
         } else {
-          resp = await fetch(config.endpoint, {
+          resp = await fetch(endpoint, {
             method: config.method || 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
