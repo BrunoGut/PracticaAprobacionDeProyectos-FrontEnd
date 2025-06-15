@@ -10,6 +10,11 @@ body {
   color: #333;
   line-height: 1.5;
 }
+.body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
 
 /* Navegación - los estilos principales provienen de Bootstrap */
 nav.navbar .nav-link {
@@ -80,7 +85,7 @@ nav.navbar .nav-link:hover::after {
   text-align: center;
   padding: 1rem;
   background: #eee;
-  margin-top: 2rem;
+  margin-top: auto;
 }
 .footer__text {
   color: #666;
@@ -114,14 +119,46 @@ nav.navbar .nav-link:hover::after {
   color: inherit;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.4s ease both;
 }
 
 .option-card i {
   font-size: 2rem;
   margin-bottom: 0.5rem;
+  transition: transform 0.3s;
 }
 
 .option-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.option-card:hover i {
+  transform: scale(1.2);
+}
+
+.option-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(40,167,69,0.15), rgba(0,0,0,0));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.option-card:hover::before {
+  opacity: 1;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

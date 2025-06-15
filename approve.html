@@ -26,7 +26,7 @@
     <form id="approveForm" class="form">
       <div class="mb-3">
         <label for="proposalId" class="form-label">ID Proyecto</label>
-        <input type="number" class="form-control" id="proposalId" name="proposalId" placeholder="ID" />
+        <input type="text" class="form-control" id="proposalId" name="proposalId" placeholder="ID" />
       </div>
       <div class="mb-3">
         <label for="id" class="form-label">ID Paso</label>
@@ -63,11 +63,25 @@
       method: 'PATCH',
       pathParams: ['proposalId'],
       renderResult: (data, div) => {
-        const decision = data.state || data.decision || '';
+        const decision = (data.state || data.decision || '').toString().toLowerCase();
+        let alertClass = 'info';
+        let message = '';
+        if (decision.includes('aprob') || decision === '1') {
+          alertClass = 'success';
+          message = 'Proyecto aprobado';
+        } else if (decision.includes('rech') || decision === '2') {
+          alertClass = 'danger';
+          message = 'Proyecto rechazado';
+        } else if (decision.includes('observ') || decision === '3') {
+          alertClass = 'warning';
+          message = 'Proyecto observado';
+        } else {
+          message = 'Se tomó la decisión: ' + decision;
+        }
         div.innerHTML =
-          '<div class="alert alert-info d-flex align-items-center">' +
+          '<div class="alert alert-' + alertClass + ' d-flex align-items-center">' +
           '<i class="bi bi-info-circle-fill me-2"></i>' +
-          'Se tomó la decisión: ' + decision +
+          message +
           '</div>';
       }
     });
