@@ -1,5 +1,10 @@
 const sectionsData = [
   {
+    id: 'home',
+    title: 'Bienvenido',
+    html: '<p class="lead">Utiliza la aplicación para crear y administrar proyectos de manera sencilla.</p>'
+  },
+  {
     id: 'create-project',
     title: 'Crear Nuevo Proyecto',
     endpoint: 'https://localhost:7062/api/Project',
@@ -10,7 +15,7 @@ const sectionsData = [
       { label: 'Duración Estimada (días)', name: 'estimatedDuration', type: 'number', placeholder: 'Ej: 15' },
       { label: 'ID Área', name: 'areaId', type: 'number', placeholder: 'Ej: 1' },
       { label: 'ID Usuario', name: 'user', type: 'number', placeholder: 'Ej: 4' },
-      { label: 'ID Tipo', name: 'typeId', type: 'number', placeholder: 'Ej: 1' },
+      { label: 'ID Tipo', name: 'typeId', type: 'number', placeholder: 'Ej: 1' }
     ]
   }
 ];
@@ -22,56 +27,60 @@ const render = () => {
     // contenedor de sección
     const section = document.createElement('section');
     section.id = sectionData.id;
-    section.classList.add('section');
+    section.classList.add('section', 'card', 'card-body');
 
     // título
     const h2 = document.createElement('h2');
     h2.textContent = sectionData.title;
+    h2.classList.add('h4', 'mb-3');
     section.appendChild(h2);
 
-    // formulario
-    const form = document.createElement('form');
-    form.classList.add('form');
+    if (sectionData.fields) {
+      // formulario
+      const form = document.createElement('form');
+      form.classList.add('form');
 
-    sectionData.fields.forEach(field => {
-      const wrapper = document.createElement('div');
-      wrapper.classList.add('form-group');
+      sectionData.fields.forEach(field => {
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('mb-3');
 
-      const label = document.createElement('label');
-      label.setAttribute('for', field.name);
-      label.textContent = field.label;
-      wrapper.appendChild(label);
+        const label = document.createElement('label');
+        label.setAttribute('for', field.name);
+        label.classList.add('form-label');
+        label.textContent = field.label;
+        wrapper.appendChild(label);
 
-      const input = document.createElement('input');
-      input.type = field.type;
-      input.id = field.name;
-      input.name = field.name;
-      input.placeholder = field.placeholder;
-      wrapper.appendChild(input);
+        const input = document.createElement('input');
+        input.type = field.type;
+        input.id = field.name;
+        input.name = field.name;
+        input.placeholder = field.placeholder;
+        input.classList.add('form-control');
+        wrapper.appendChild(input);
 
-      form.appendChild(wrapper);
-    });
-
-    // botón de envío
-    const btn = document.createElement('button');
-    btn.type = 'submit';
-    btn.textContent = 'Crear proyecto';
-    btn.classList.add('btn');
-    form.appendChild(btn);
-
-    // área de resultados
-    const resultDiv = document.createElement('div');
-    resultDiv.classList.add('result');
-    section.appendChild(resultDiv);
-
-    // escucha el submit
-    form.addEventListener('submit', async e => {
-      e.preventDefault();
-      const payload = {};
-      sectionData.fields.forEach(f => {
-        const val = form[f.name].value;
-        payload[f.name] = f.type === 'number' ? Number(val) : val;
+        form.appendChild(wrapper);
       });
+
+      // botón de envío
+      const btn = document.createElement('button');
+      btn.type = 'submit';
+      btn.textContent = 'Crear proyecto';
+      btn.classList.add('btn', 'btn-success');
+      form.appendChild(btn);
+
+      // área de resultados
+      const resultDiv = document.createElement('div');
+      resultDiv.classList.add('result');
+      section.appendChild(resultDiv);
+
+      // escucha el submit
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        const payload = {};
+        sectionData.fields.forEach(f => {
+          const val = form[f.name].value;
+          payload[f.name] = f.type === 'number' ? Number(val) : val;
+        });
 
       try {
         const resp = await fetch(sectionData.endpoint, {
@@ -95,8 +104,10 @@ const render = () => {
         resultDiv.classList.add('error');
       }
     });
-
-    section.appendChild(form);
+      section.appendChild(form);
+    } else if (sectionData.html) {
+      section.insertAdjacentHTML('beforeend', sectionData.html);
+    }
     main.appendChild(section);
   });
 };
