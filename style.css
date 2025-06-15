@@ -11,40 +11,9 @@ body {
   line-height: 1.5;
 }
 
-/* Header y navegación */
-.header {
-  background: #4caf50;
-  color: #fff;
-  padding: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.header h1 {
-  font-size: 1.5rem;
-}
-.nav ul {
-  list-style: none;
-  display: flex;
-}
-.nav li + li {
-  margin-left: 1rem;
-}
-.nav a {
-  color: #fff;
-  text-decoration: none;
-  font-weight: bold;
-}
-.nav a:hover {
-  text-decoration: underline;
-}
+/* Navegación - los estilos principales provienen de Bootstrap */
 
 /* Main y secciones */
-#main {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 0 1rem;
-}
 .section {
   background: #fff;
   padding: 1.5rem;
@@ -72,19 +41,7 @@ body {
   border-radius: 4px;
 }
 
-/* Botón */
-.btn {
-  background: #4caf50;
-  color: #fff;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-.btn:hover {
-  background: #45a049;
-}
+/* Botón - Bootstrap aplica la apariencia principal */
 
 /* Resultados */
 .result {
