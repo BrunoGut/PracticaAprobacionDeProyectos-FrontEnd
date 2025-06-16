@@ -1,9 +1,8 @@
 function setupForm(config) {
-  document.addEventListener('DOMContentLoaded', () => {
-    const form = document.getElementById(config.formId);
-    if (!form) return;
-    const resultDiv = document.getElementById('result');
-    form.addEventListener('submit', async (e) => {
+  const form = document.getElementById(config.formId);
+  if (!form) return;
+  const resultDiv = document.getElementById('result');
+  form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const formData = new FormData(form);
       const payload = {};
@@ -57,7 +56,6 @@ function setupForm(config) {
         resultDiv.classList.add('error');
       }
     });
-  });
 }
 
 window.setupForm = setupForm;
