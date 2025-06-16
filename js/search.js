@@ -16,10 +16,13 @@ document.addEventListener('DOMContentLoaded', () => {
       function actionButtons(id) {
         if (!id) return '';
         return (
-          '<div class="mt-2">' +
-          `<a href="approve.html?proposalId=${encodeURIComponent(id)}&status=1" class="btn btn-success me-1">Aprobar</a>` +
-          `<a href="approve.html?proposalId=${encodeURIComponent(id)}&status=2" class="btn btn-danger me-1">Rechazar</a>` +
-          `<a href="approve.html?proposalId=${encodeURIComponent(id)}&status=3" class="btn btn-warning">Observar</a>` +
+          '<div class="d-flex justify-content-between mt-2">' +
+          '<div>' +
+          `<a href="approve.html?proposalId=${encodeURIComponent(id)}&status=2" class="btn btn-success me-1">Aprobar</a>` +
+          `<a href="approve.html?proposalId=${encodeURIComponent(id)}&status=3" class="btn btn-danger me-1">Rechazar</a>` +
+          `<a href="approve.html?proposalId=${encodeURIComponent(id)}&status=4" class="btn btn-warning">Observar</a>` +
+          '</div>' +
+          `<a href="edit.html?id=${encodeURIComponent(id)}" class="btn btn-primary">Editar</a>` +
           '</div>'
         );
       }
