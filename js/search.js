@@ -1,4 +1,27 @@
-document.addEventListener('DOMContentLoaded', () => {
+async function populateSelect(id, endpoint) {
+  const select = document.getElementById(id);
+  if (!select) return;
+  try {
+    const resp = await fetch(`${API_BASE_URL}${endpoint}`);
+    if (resp.ok) {
+      const items = await resp.json();
+      const options = items
+        .map(i => {
+          const label = i.name || i.fullName || i.title || i.username || i.email || i.id;
+          return `<option value="${i.id}">${label}</option>`;
+        })
+        .join('');
+      select.innerHTML = '<option value="">Seleccione...</option>' + options;
+    }
+  } catch (err) {
+    console.error('Error cargando opciones', err);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  await populateSelect('state', '/api/ProjectState');
+  await populateSelect('applicant', '/api/User');
+  await populateSelect('approver', '/api/User');
   setupForm({
     formId: 'searchForm',
     endpoint: `${API_BASE_URL}/api/Project`,

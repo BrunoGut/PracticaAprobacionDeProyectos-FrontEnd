@@ -37,9 +37,22 @@ function setupForm(config) {
           });
         }
           if (!resp.ok) {
-            const text = await resp.text();
-            resultDiv.textContent = `Error ${resp.status}: ${text}`;
+            let message = `Error ${resp.status}`;
+            try {
+              const errData = await resp.json();
+              message = errData.message || errData.title || JSON.stringify(errData);
+            } catch {
+              try {
+                message = await resp.text();
+              } catch {}
+            }
+            resultDiv.innerHTML =
+              '<div class="alert alert-danger d-flex align-items-center">' +
+              '<i class="bi bi-exclamation-triangle-fill me-2"></i>' +
+              message +
+              '</div>';
             resultDiv.classList.add('error');
+            resultDiv.classList.remove('success');
           } else {
             const data = await resp.json();
             resultDiv.classList.remove('error');
@@ -47,13 +60,22 @@ function setupForm(config) {
             if (typeof config.renderResult === 'function') {
               config.renderResult(data, resultDiv);
             } else {
-              resultDiv.textContent = '✅ Operación exitosa:\n' + JSON.stringify(data, null, 2);
+              resultDiv.innerHTML =
+                '<div class="alert alert-success d-flex align-items-center">' +
+                '<i class="bi bi-check-circle-fill me-2"></i>' +
+                'Operación exitosa' +
+                '</div>';
             }
             form.reset();
           }
       } catch (err) {
-        resultDiv.textContent = `Error de red: ${err.message}`;
+        resultDiv.innerHTML =
+          '<div class="alert alert-danger d-flex align-items-center">' +
+          '<i class="bi bi-exclamation-triangle-fill me-2"></i>' +
+          `Error de red: ${err.message}` +
+          '</div>';
         resultDiv.classList.add('error');
+        resultDiv.classList.remove('success');
       }
     });
 }
