@@ -73,10 +73,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('approveForm').reset();
       const result = document.getElementById('result');
       if (result) result.innerHTML = '';
-      if (proposalId) {
-        document.getElementById('proposalId').value = proposalId;
-        populateSteps(proposalId);
-      }
+      const stepSelect = document.getElementById('id');
+      if (stepSelect) stepSelect.innerHTML = '<option value="">Seleccione...</option>';
     });
   }
 
