@@ -57,8 +57,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (stateFilter && stateFilter.value) {
         const value = stateFilter.value;
         filtered = projects.filter(p => {
-          const v = p.state ?? p.status ?? p.stateId;
-          return String(v) === value;
         });
       }
 
