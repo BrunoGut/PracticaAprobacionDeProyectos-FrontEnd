@@ -75,8 +75,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (result) result.innerHTML = '';
       const stepSelect = document.getElementById('id');
       if (stepSelect) stepSelect.innerHTML = '<option value="">Seleccione...</option>';
-      const proposalInput = document.getElementById('proposalId');
-      if (proposalInput) proposalInput.value = '';
     });
   }
 
