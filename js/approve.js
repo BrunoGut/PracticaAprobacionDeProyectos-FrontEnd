@@ -18,8 +18,16 @@ async function populateSelect(id, endpoint) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  populateSelect('user', '/api/User');
+document.addEventListener('DOMContentLoaded', async () => {
+  await populateSelect('user', '/api/User');
+
+  const params = new URLSearchParams(window.location.search);
+  for (const [key, value] of params.entries()) {
+    const input = document.getElementById(key);
+    if (input) {
+      input.value = value;
+    }
+  }
 
   setupForm({
     formId: 'approveForm',
