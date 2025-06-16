@@ -27,7 +27,10 @@ function setupForm(config) {
       try {
         let resp;
         if (config.method === 'GET') {
-          const query = new URLSearchParams(payload).toString();
+          const filtered = Object.fromEntries(
+            Object.entries(payload).filter(([_, v]) => v !== '' && v !== null && v !== undefined)
+          );
+          const query = new URLSearchParams(filtered).toString();
           resp = await fetch(query ? `${endpoint}?${query}` : endpoint);
         } else {
           resp = await fetch(endpoint, {
@@ -66,7 +69,12 @@ function setupForm(config) {
                 'Operación exitosa' +
                 '</div>';
             }
-            form.reset();
+            if (config.reset !== false) {
+              form.reset();
+            }
+            if (typeof config.afterSuccess === 'function') {
+              config.afterSuccess(data, form);
+            }
           }
       } catch (err) {
         resultDiv.innerHTML =

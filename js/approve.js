@@ -67,11 +67,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
+  const clearBtn = document.getElementById('clearBtn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      document.getElementById('approveForm').reset();
+      const result = document.getElementById('result');
+      if (result) result.innerHTML = '';
+      if (proposalId) {
+        document.getElementById('proposalId').value = proposalId;
+        populateSteps(proposalId);
+      }
+    });
+  }
+
   setupForm({
     formId: 'approveForm',
     endpoint: `${API_BASE_URL}/api/Project/{proposalId}/decision`,
     method: 'PATCH',
     pathParams: ['proposalId'],
+    reset: false,
+    afterSuccess: () => {
+      if (proposalId) {
+        document.getElementById('proposalId').value = proposalId;
+        populateSteps(proposalId);
+      }
+    },
     renderResult: (data, div) => {
       const decision = (data.state || data.decision || '').toString().toLowerCase();
       let alertClass = 'info';
