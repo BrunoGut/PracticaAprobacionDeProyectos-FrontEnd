@@ -24,16 +24,27 @@ document.addEventListener('DOMContentLoaded', () => {
   populateSelect('user', '/api/User');
   populateSelect('typeId', '/api/ProjectType');
 
+  const clearBtn = document.getElementById('clearBtn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      document.getElementById('createForm').reset();
+      const result = document.getElementById('result');
+      if (result) result.innerHTML = '';
+    });
+  }
+
   setupForm({
     formId: 'createForm',
     endpoint: `${API_BASE_URL}/api/Project`,
     method: 'POST',
     renderResult: (data, div) => {
+      const card = renderProjectCard ? renderProjectCard(data) : '';
       div.innerHTML =
         '<div class="alert alert-success d-flex align-items-center">' +
         '<i class="bi bi-check-circle-fill me-2"></i>' +
         'Proyecto creado correctamente' +
-        '</div>';
+        '</div>' +
+        card;
     }
   });
 });

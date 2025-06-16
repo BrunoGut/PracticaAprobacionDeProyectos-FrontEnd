@@ -1,10 +1,3 @@
-function renderDetails(obj) {
-  const items = Object.entries(obj)
-    .map(([k, v]) => `<li class="list-group-item"><strong>${k}:</strong> ${v}</li>`)
-    .join('');
-  return `<div class="card mt-3"><ul class="list-group list-group-flush">${items}</ul></div>`;
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   for (const [key, value] of params.entries()) {
@@ -12,6 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
     if (input) {
       input.value = value;
     }
+  }
+
+  const clearBtn = document.getElementById('clearBtn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      document.getElementById('editForm').reset();
+      const result = document.getElementById('result');
+      if (result) result.innerHTML = '';
+    });
   }
 
   setupForm({
@@ -30,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const resp = await fetch(`${API_BASE_URL}/api/Project/${id}`);
         if (resp.ok) {
           const project = await resp.json();
-          div.innerHTML += renderDetails(project);
+          div.innerHTML += renderProjectCard(project);
         }
       } catch {}
     }
