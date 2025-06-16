@@ -33,12 +33,16 @@
         <input type="number" class="form-control" id="id" name="id" placeholder="ID del paso" />
       </div>
       <div class="mb-3">
-        <label for="user" class="form-label">ID Aprobador</label>
-        <input type="number" class="form-control" id="user" name="user" placeholder="Usuario que aprueba" />
+        <label for="user" class="form-label">Aprobador</label>
+        <select class="form-select" id="user" name="user"></select>
       </div>
       <div class="mb-3">
         <label for="status" class="form-label">Estado</label>
-        <input type="number" class="form-control" id="status" name="status" placeholder="Estado del paso" />
+        <select class="form-select" id="status" name="status">
+          <option value="1">Aprobado</option>
+          <option value="2">Rechazado</option>
+          <option value="3">Observado</option>
+        </select>
       </div>
       <div class="mb-3">
         <label for="observation" class="form-label">Observación</label>
@@ -56,35 +60,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/config.js"></script>
   <script src="js/forms.js"></script>
-  <script>
-    setupForm({
-      formId: 'approveForm',
-      endpoint: `${API_BASE_URL}/api/Project/{proposalId}/decision`,
-      method: 'PATCH',
-      pathParams: ['proposalId'],
-      renderResult: (data, div) => {
-        const decision = (data.state || data.decision || '').toString().toLowerCase();
-        let alertClass = 'info';
-        let message = '';
-        if (decision.includes('aprob') || decision === '1') {
-          alertClass = 'success';
-          message = 'Proyecto aprobado';
-        } else if (decision.includes('rech') || decision === '2') {
-          alertClass = 'danger';
-          message = 'Proyecto rechazado';
-        } else if (decision.includes('observ') || decision === '3') {
-          alertClass = 'warning';
-          message = 'Proyecto observado';
-        } else {
-          message = 'Se tomó la decisión: ' + decision;
-        }
-        div.innerHTML =
-          '<div class="alert alert-' + alertClass + ' d-flex align-items-center">' +
-          '<i class="bi bi-info-circle-fill me-2"></i>' +
-          message +
-          '</div>';
-      }
-    });
-  </script>
+  <script src="js/approve.js"></script>
 </body>
 </html>

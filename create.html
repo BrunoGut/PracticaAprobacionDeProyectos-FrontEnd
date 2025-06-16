@@ -41,16 +41,16 @@
         <input type="number" class="form-control" id="estimatedDuration" name="estimatedDuration" placeholder="Ej: 15" />
       </div>
       <div class="mb-3">
-        <label for="areaId" class="form-label">ID Área</label>
-        <input type="number" class="form-control" id="areaId" name="areaId" placeholder="Ej: 1" />
+        <label for="areaId" class="form-label">Área</label>
+        <select class="form-select" id="areaId" name="areaId"></select>
       </div>
       <div class="mb-3">
-        <label for="user" class="form-label">ID Usuario</label>
-        <input type="number" class="form-control" id="user" name="user" placeholder="Ej: 4" />
+        <label for="user" class="form-label">Usuario</label>
+        <select class="form-select" id="user" name="user"></select>
       </div>
       <div class="mb-3">
-        <label for="typeId" class="form-label">ID Tipo</label>
-        <input type="number" class="form-control" id="typeId" name="typeId" placeholder="Ej: 1" />
+        <label for="typeId" class="form-label">Tipo de Proyecto</label>
+        <select class="form-select" id="typeId" name="typeId"></select>
       </div>
       <button type="submit" class="btn btn-success">Crear proyecto</button>
     </form>
@@ -64,19 +64,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/config.js"></script>
   <script src="js/forms.js"></script>
-  <script>
-    setupForm({
-      formId: 'createForm',
-      endpoint: `${API_BASE_URL}/api/Project`,
-      method: 'POST',
-      renderResult: (data, div) => {
-        div.innerHTML =
-          '<div class="alert alert-success d-flex align-items-center">' +
-          '<i class="bi bi-check-circle-fill me-2"></i>' +
-          'Proyecto creado correctamente' +
-          '</div>';
-      }
-    });
-  </script>
+  <script src="js/create.js"></script>
 </body>
 </html>
