@@ -52,6 +52,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderResult: (data, div) => {
       const projects = Array.isArray(data) ? data : [data];
 
+      const stateFilter = document.getElementById('state');
+      let filtered = projects;
+      if (stateFilter && stateFilter.value) {
+        const value = stateFilter.value;
+        filtered = projects.filter(p => {
+          let v = p.stateId ?? p.status;
+          if (v === undefined || v === null) {
+            const stateProp = p.state;
+            if (typeof stateProp === 'object' && stateProp !== null) {
+              v = stateProp.id;
+            } else {
+              v = stateProp;
+            }
+          }
+          return v !== undefined && v !== null && String(v) === value;
+        });
+      }
+
       function actionButtons(id) {
         if (!id) return '';
         return (
@@ -66,7 +84,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         );
       }
 
-      div.innerHTML = projects
+      if (filtered.length === 0) {
+        div.innerHTML =
+          '<div class="alert alert-info d-flex align-items-center">' +
+          '<i class="bi bi-info-circle-fill me-2"></i>' +
+          'No se encontraron proyectos' +
+          '</div>';
+        return;
+      }
+
+      div.innerHTML = filtered
         .map(p => renderProjectCard(p, actionButtons))
         .join('');
     }
