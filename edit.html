@@ -52,31 +52,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/config.js"></script>
   <script src="js/forms.js"></script>
-  <script>
-    setupForm({
-      formId: 'editForm',
-      endpoint: `${API_BASE_URL}/api/Project/{id}`,
-      method: 'PATCH',
-      pathParams: ['id'],
-      renderResult: async (data, div) => {
-        const id = document.getElementById('id').value;
-        div.innerHTML =
-          '<div class="alert alert-success d-flex align-items-center">' +
-          '<i class="bi bi-pencil-fill me-2"></i>' +
-          'Proyecto actualizado' +
-          '</div>';
-        try {
-          const resp = await fetch(`${API_BASE_URL}/api/Project/${id}`);
-          if (resp.ok) {
-            const project = await resp.json();
-            div.innerHTML +=
-              '<div class="card mt-3"><div class="card-body"><pre>' +
-              JSON.stringify(project, null, 2) +
-              '</pre></div></div>';
-          }
-        } catch {}
-      }
-    });
-  </script>
+  <script src="js/edit.js"></script>
 </body>
 </html>

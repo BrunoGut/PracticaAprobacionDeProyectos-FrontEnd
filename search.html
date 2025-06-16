@@ -52,22 +52,6 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/config.js"></script>
   <script src="js/forms.js"></script>
-  <script>
-    setupForm({
-      formId: 'searchForm',
-      endpoint: `${API_BASE_URL}/api/Project`,
-      method: 'GET',
-      renderResult: (data, div) => {
-        const projects = Array.isArray(data) ? data : [data];
-        div.innerHTML = projects
-          .map(p =>
-            '<div class="card mb-3"><div class="card-body"><pre>' +
-            JSON.stringify(p, null, 2) +
-            '</pre></div></div>'
-          )
-          .join('');
-      }
-    });
-  </script>
+  <script src="js/search.js"></script>
 </body>
 </html>
