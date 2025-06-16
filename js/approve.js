@@ -18,10 +18,33 @@ async function populateSelect(id, endpoint) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-  await populateSelect('user', '/api/User');
+async function populateSteps(proposalId) {
+  const select = document.getElementById('id');
+  if (!select || !proposalId) return;
+  try {
+    const resp = await fetch(`${API_BASE_URL}/api/Project/${proposalId}/step`);
+    if (resp.ok) {
+      const steps = await resp.json();
+      const options = steps
+        .map(s => {
+          const role = s.approverRole || s.role || s.approver || '';
+          return `<option value="${s.id}">Paso ${s.stepOrder} - ${role}</option>`;
+        })
+        .join('');
+      select.innerHTML = '<option value="">Seleccione...</option>' + options;
+    }
+  } catch (err) {
+    console.error('Error cargando pasos', err);
+  }
+}
 
+document.addEventListener('DOMContentLoaded', async () => {
   const params = new URLSearchParams(window.location.search);
+  const proposalId = params.get('proposalId');
+
+  await populateSelect('user', '/api/User');
+  await populateSteps(proposalId);
+
   for (const [key, value] of params.entries()) {
     const input = document.getElementById(key);
     if (input) {
@@ -38,13 +61,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       const decision = (data.state || data.decision || '').toString().toLowerCase();
       let alertClass = 'info';
       let message = '';
-      if (decision.includes('aprob') || decision === '1') {
+      if (decision.includes('aprob') || decision === '2') {
         alertClass = 'success';
         message = 'Proyecto aprobado';
-      } else if (decision.includes('rech') || decision === '2') {
+      } else if (decision.includes('rech') || decision === '3') {
         alertClass = 'danger';
         message = 'Proyecto rechazado';
-      } else if (decision.includes('observ') || decision === '3') {
+      } else if (decision.includes('observ') || decision === '4') {
         alertClass = 'warning';
         message = 'Proyecto observado';
       } else {
