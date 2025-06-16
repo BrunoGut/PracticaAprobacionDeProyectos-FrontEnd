@@ -22,13 +22,6 @@ async function populateSteps(proposalId) {
   const select = document.getElementById('id');
   if (!select || !proposalId) return;
   try {
-    const resp = await fetch(`${API_BASE_URL}/api/Project/${proposalId}/step`);
-    if (resp.ok) {
-      const steps = await resp.json();
-      const options = steps
-        .map(s => {
-          const role = s.approverRole || s.role || s.approver || '';
-          return `<option value="${s.id}">Paso ${s.stepOrder} - ${role}</option>`;
         })
         .join('');
       select.innerHTML = '<option value="">Seleccione...</option>' + options;

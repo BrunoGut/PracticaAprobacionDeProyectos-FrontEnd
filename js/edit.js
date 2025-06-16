@@ -6,6 +6,14 @@ function renderDetails(obj) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  for (const [key, value] of params.entries()) {
+    const input = document.getElementById(key);
+    if (input) {
+      input.value = value;
+    }
+  }
+
   setupForm({
     formId: 'editForm',
     endpoint: `${API_BASE_URL}/api/Project/{id}`,
