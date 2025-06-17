@@ -50,20 +50,24 @@ async function populateSteps(proposalId) {
           let icon = '';
           let color = '';
           let disabled = false;
+          let cls = '';
           if (state === 2) {
             icon = '✓';
             color = 'color: #6c757d;';
             disabled = true;
+            cls = 'text-muted';
           } else if (state === 1 || state === 4) {
             icon = state === 4 ? '⚠' : '⌛';
             disabled = firstPending && s.id !== firstPending.id;
+            if (disabled) cls = 'text-muted';
           } else if (state === 3) {
             icon = '✖';
             color = 'color: #dc3545;';
             disabled = true;
+            cls = 'text-danger';
           }
           return (
-            `<option value="${s.id}" ${disabled ? 'disabled' : ''} style="${color}">` +
+            `<option value="${s.id}" ${disabled ? 'disabled' : ''} class="${cls}" style="${color}">` +
             `${icon} Paso ${s.stepOrder} - ${roleName}</option>`
           );
         })
