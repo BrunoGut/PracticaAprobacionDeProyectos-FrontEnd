@@ -2,8 +2,12 @@ function setupForm(config) {
   const form = document.getElementById(config.formId);
   if (!form) return;
   const resultDiv = document.getElementById('result');
+  const overlay = document.getElementById('loadingOverlay');
   form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (overlay) overlay.classList.remove('d-none');
+      const submitBtn = form.querySelector('[type="submit"]');
+      if (submitBtn) submitBtn.disabled = true;
       const formData = new FormData(form);
       const payload = {};
       for (const [key, value] of formData.entries()) {
@@ -84,6 +88,9 @@ function setupForm(config) {
           '</div>';
         resultDiv.classList.add('error');
         resultDiv.classList.remove('success');
+      } finally {
+        if (overlay) overlay.classList.add('d-none');
+        if (submitBtn) submitBtn.disabled = false;
       }
     });
 }
