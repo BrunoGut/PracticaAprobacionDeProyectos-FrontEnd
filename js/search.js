@@ -57,10 +57,15 @@ function getProjectStateId(p) {
 document.addEventListener('DOMContentLoaded', async () => {
   await populateSelect('state', '/api/ProjectState');
   const stateSelect = document.getElementById('state');
-  if (stateSelect && stateSelect.options.length <= 1) {
-    stateSelect.innerHTML =
-      '<option value="">Seleccione...</option>' +
-      STATE_OPTIONS.map(o => `<option value="${o.id}">${o.name}</option>`).join('');
+  if (stateSelect) {
+    for (const opt of stateSelect.options) {
+      if (opt.value) opt.textContent = opt.value;
+    }
+    if (stateSelect.options.length <= 1) {
+      stateSelect.innerHTML =
+        '<option value="">Seleccione...</option>' +
+        STATE_OPTIONS.map(o => `<option value="${o.id}">${o.id}</option>`).join('');
+    }
   }
 
   await populateSelect('applicant', '/api/User');
@@ -83,9 +88,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       const stateFilter = document.getElementById('state');
       let filtered = projects;
       if (stateFilter && stateFilter.value) {
-        const value = stateFilter.value;
-        filtered = projects.filter(p => {
-        });
+        const value = Number(stateFilter.value);
+        filtered = projects.filter(p => getProjectStateId(p) == value);
       }
 
       function actionButtons(id) {
