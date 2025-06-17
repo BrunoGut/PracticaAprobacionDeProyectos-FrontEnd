@@ -85,12 +85,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderResult: (data, div) => {
       const projects = Array.isArray(data) ? data : [data];
 
-      const stateFilter = document.getElementById('state');
-      let filtered = projects;
-      if (stateFilter && stateFilter.value) {
-        const value = Number(stateFilter.value);
-        filtered = projects.filter(p => getProjectStateId(p) == value);
-      }
+      // const stateFilter = document.getElementById('state');
+      // let filtered = projects;
+      // if (stateFilter && stateFilter.value) {
+      //   const value = Number(stateFilter.value);
+      //   filtered = projects.filter(p => getProjectStateId(p) == value);
+      // }
 
       function actionButtons(id) {
         if (!id) return '';
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         );
       }
 
-      if (filtered.length === 0) {
+      if (projects.length === 0) {
         div.innerHTML =
           '<div class="alert alert-info d-flex align-items-center">' +
           '<i class="bi bi-info-circle-fill me-2"></i>' +
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-      div.innerHTML = filtered
+      div.innerHTML = projects
         .map(p => renderProjectCard(p, actionButtons))
         .join('');
     }
