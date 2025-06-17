@@ -16,7 +16,13 @@
     <form id="editForm" class="form">
       <div class="mb-3">
         <label for="id" class="form-label">ID Proyecto</label>
-        <input type="text" class="form-control" id="id" name="id" placeholder="ID del proyecto" />
+        <div class="input-group">
+          <input type="text" class="form-control" id="id" name="id" placeholder="ID del proyecto" />
+          <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-list"></i>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end" id="projectDropdown"></ul>
+        </div>
       </div>
       <div class="mb-3">
         <label for="title" class="form-label">Título</label>
@@ -41,10 +47,10 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="js/config.js"></script>
-  <script src="js/forms.js"></script>
-  <script src="js/projectCard.js"></script>
-  <script src="js/edit.js"></script>
-  <script src="js/nav.js"></script>
+  <script src="src/config.js"></script>
+  <script src="src/forms.js"></script>
+  <script src="src/components/projectCard.js"></script>
+  <script src="src/edit.js"></script>
+  <script src="src/nav.js"></script>
 </body>
 </html>

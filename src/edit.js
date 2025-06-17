@@ -1,3 +1,27 @@
+async function populateProjectDropdown() {
+  const list = document.getElementById('projectDropdown');
+  if (!list) return;
+  try {
+    const resp = await fetch(`${API_BASE_URL}/api/Project`);
+    if (resp.ok) {
+      const projects = await resp.json();
+      list.innerHTML = projects
+        .map(p => `<li><a class="dropdown-item" data-id="${p.id}" href="#">${p.id} - ${p.title || p.name}</a></li>`)
+        .join('');
+      list.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', e => {
+          e.preventDefault();
+          const id = a.getAttribute('data-id');
+          const input = document.getElementById('id');
+          if (input) input.value = id;
+        });
+      });
+    }
+  } catch (err) {
+    console.error('Error cargando proyectos', err);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   const params = new URLSearchParams(window.location.search);
   for (const [key, value] of params.entries()) {
@@ -15,6 +39,8 @@ document.addEventListener('DOMContentLoaded', () => {
       if (result) result.innerHTML = '';
     });
   }
+
+  populateProjectDropdown();
 
   setupForm({
     formId: 'editForm',

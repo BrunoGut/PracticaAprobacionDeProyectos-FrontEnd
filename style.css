@@ -162,3 +162,13 @@ nav.navbar .nav-link:hover::after {
     transform: translateY(0);
   }
 }
+
+/* Tarjetas de proyecto */
+.project-card {
+  border-color: #198754;
+}
+
+.project-card-header {
+  background: linear-gradient(45deg, #198754, #28c76f);
+  color: #fff;
+}

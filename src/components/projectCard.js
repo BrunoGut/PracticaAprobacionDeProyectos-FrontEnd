@@ -47,8 +47,8 @@ function renderProjectCard(p, actionButtons) {
     `<li class="list-group-item"><strong>Estado:</strong> <div class="alert alert-${info.class} mb-0 py-1">${info.text}</div></li>`;
 
   return (
-    '<div class="card mb-3">' +
-    '<div class="card-header bg-info text-white">' +
+    '<div class="card project-card mb-3">' +
+    '<div class="card-header bg-info text-white project-card-header">' +
     '<i class="bi bi-info-circle me-2"></i>Detalle del proyecto' +
     '</div>' +
     '<div class="card-body">' +
