@@ -24,48 +24,13 @@ const STATE_OPTIONS = [
   { id: 3, name: 'Rechazado' },
   { id: 4, name: 'Observado' }
 ];
-
-function getProjectStateId(p) {
-  const props = [
-    'state',
-    'status',
-    'approvalStatus',
-    'stateId',
-    'statusId',
-    'approvalStatusId',
-    'State',
-    'Status',
-    'StateId',
-    'StatusId'
-  ];
-  for (const key of props) {
-    if (p[key] !== undefined && p[key] !== null) {
-      let val = p[key];
-      if (typeof val === 'object') {
-        if (val.id !== undefined && val.id !== null) return val.id;
-        if (val.stateId !== undefined && val.stateId !== null) return val.stateId;
-        if (val.statusId !== undefined && val.statusId !== null) return val.statusId;
-        continue;
-      }
-      return val;
-    }
-  }
-  return undefined;
-}
-
-
 document.addEventListener('DOMContentLoaded', async () => {
   await populateSelect('state', '/api/ProjectState');
   const stateSelect = document.getElementById('state');
-  if (stateSelect) {
-    for (const opt of stateSelect.options) {
-      if (opt.value) opt.textContent = opt.value;
-    }
-    if (stateSelect.options.length <= 1) {
-      stateSelect.innerHTML =
-        '<option value="">Seleccione...</option>' +
-        STATE_OPTIONS.map(o => `<option value="${o.id}">${o.id}</option>`).join('');
-    }
+  if (stateSelect && stateSelect.options.length <= 1) {
+    stateSelect.innerHTML =
+      '<option value="">Seleccione...</option>' +
+      STATE_OPTIONS.map(o => `<option value="${o.id}">${o.name}</option>`).join('');
   }
 
   await populateSelect('applicant', '/api/User');
@@ -85,12 +50,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderResult: (data, div) => {
       const projects = Array.isArray(data) ? data : [data];
 
-      // const stateFilter = document.getElementById('state');
-      // let filtered = projects;
-      // if (stateFilter && stateFilter.value) {
-      //   const value = Number(stateFilter.value);
-      //   filtered = projects.filter(p => getProjectStateId(p) == value);
-      // }
 
       function actionButtons(id) {
         if (!id) return '';
