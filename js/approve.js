@@ -34,6 +34,9 @@ async function populateSteps(proposalId) {
       }
     }
     if (steps.length) {
+      steps.sort((a, b) => (a.stepOrder || 0) - (b.stepOrder || 0));
+      const firstPending = steps.find(s => Number(s.status || s.state) !== 2);
+      const rejected = steps.some(s => Number(s.status || s.state) === 3);
       const options = steps
         .map(s => {
           const roleName =
@@ -43,13 +46,58 @@ async function populateSteps(proposalId) {
             s.role ||
             s.approver ||
             '';
-          return `<option value="${s.id}">Paso ${s.stepOrder} - ${roleName}</option>`;
+          const state = Number(s.status || s.state || 1);
+          let icon = '';
+          let color = '';
+          let disabled = false;
+          if (state === 2) {
+            icon = '✓';
+            color = 'color: #6c757d;';
+            disabled = true;
+          } else if (state === 1 || state === 4) {
+            icon = state === 4 ? '⚠' : '⌛';
+            disabled = firstPending && s.id !== firstPending.id;
+          } else if (state === 3) {
+            icon = '✖';
+            color = 'color: #dc3545;';
+            disabled = true;
+          }
+          return (
+            `<option value="${s.id}" ${disabled ? 'disabled' : ''} style="${color}">` +
+            `${icon} Paso ${s.stepOrder} - ${roleName}</option>`
+          );
         })
         .join('');
       select.innerHTML = '<option value="">Seleccione...</option>' + options;
+      if (rejected) select.disabled = true; else select.disabled = false;
     }
   } catch (err) {
     console.error('Error cargando pasos', err);
+  }
+}
+
+async function populateProposalDropdown() {
+  const list = document.getElementById('proposalDropdown');
+  if (!list) return;
+  try {
+    const resp = await fetch(`${API_BASE_URL}/api/Project`);
+    if (resp.ok) {
+      const projects = await resp.json();
+      list.innerHTML = projects
+        .map(p => `<li><a class="dropdown-item" data-id="${p.id}" href="#">${p.id} - ${p.title || p.name}</a></li>`)
+        .join('');
+      list.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', e => {
+          e.preventDefault();
+          const id = a.getAttribute('data-id');
+          const input = document.getElementById('proposalId');
+          if (input) input.value = id;
+          populateSteps(id);
+        });
+      });
+    }
+  } catch (err) {
+    console.error('Error cargando proyectos', err);
   }
 }
 
@@ -58,6 +106,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const proposalId = params.get('proposalId');
 
   await populateSelect('user', '/api/User');
+  await populateProposalDropdown();
   await populateSteps(proposalId);
 
   for (const [key, value] of params.entries()) {
