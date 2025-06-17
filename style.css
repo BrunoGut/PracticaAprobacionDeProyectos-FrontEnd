@@ -1,4 +1,10 @@
 /* Reset y base */
+:root {
+  --bg-color: #f8f6f5;
+  --border-color: #e52514;
+  --detail-main: #000000;
+  --detail-alt: #8f8f9f;
+}
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,8 +12,8 @@
 }
 body {
   font-family: Arial, sans-serif;
-  background: #f9f9f9;
-  color: #333;
+  background: var(--bg-color);
+  color: var(--detail-main);
   line-height: 1.5;
 }
 .body {
@@ -17,6 +23,16 @@ body {
 }
 
 /* Navegación - los estilos principales provienen de Bootstrap */
+#mainNav {
+  background-color: var(--border-color) !important;
+}
+#mainNav .navbar-brand,
+#mainNav .nav-link {
+  color: #fff;
+}
+#mainNav .logo {
+  height: 32px;
+}
 nav.navbar .nav-link {
   position: relative;
   transition: color 0.3s;
@@ -43,6 +59,7 @@ nav.navbar .nav-link:hover::after {
   background: #fff;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
@@ -62,7 +79,7 @@ nav.navbar .nav-link:hover::after {
 }
 .form-group input {
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
 }
 
@@ -84,11 +101,11 @@ nav.navbar .nav-link:hover::after {
 .footer {
   text-align: center;
   padding: 1rem;
-  background: #eee;
+  background: var(--detail-alt);
   margin-top: auto;
 }
 .footer__text {
-  color: #666;
+  color: #fff;
 }
 
 .hero-img {
@@ -112,6 +129,7 @@ nav.navbar .nav-link:hover::after {
 
 .option-card {
   background: #fff;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   padding: 1.5rem;
   text-align: center;
@@ -165,11 +183,11 @@ nav.navbar .nav-link:hover::after {
 
 /* Tarjetas de proyecto */
 .project-card {
-  border-color: #198754;
+  border-color: var(--border-color);
 }
 
 .project-card-header {
-  background: linear-gradient(45deg, #198754, #28c76f);
+  background: var(--detail-alt);
   color: #fff;
 }
 
