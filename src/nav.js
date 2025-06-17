@@ -1,7 +1,9 @@
 function renderNav() {
   return (
-    '<div class="container">' +
-    '<a class="navbar-brand" href="index.html">Gestión de Proyectos</a>' +
+    '<div class="container d-flex align-items-center">' +
+    '<a class="navbar-brand d-flex align-items-center me-auto" href="index.html">' +
+    '<img src="img/logo.svg" alt="Logo" class="logo me-2"/>' +
+    '<span>Gestión de Proyectos</span></a>' +
     '<ul class="navbar-nav flex-row ms-auto">' +
     '<li class="nav-item me-3"><a class="nav-link" href="create.html"><i class="bi bi-plus-circle"></i> Crear</a></li>' +
     '<li class="nav-item me-3"><a class="nav-link" href="edit.html"><i class="bi bi-pencil-square"></i> Editar</a></li>' +
