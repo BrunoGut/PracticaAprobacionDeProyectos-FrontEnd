@@ -20,6 +20,7 @@ async function populateSelect(id, endpoint) {
 
 async function populateSteps(proposalId) {
   const select = document.getElementById('id');
+  const flowInfo = document.getElementById('approvalFlowInfo');
   if (!select || !proposalId) return;
   try {
     let steps = [];
@@ -42,9 +43,22 @@ async function populateSteps(proposalId) {
           ? Number(s.status.id)
           : Number(s.status ?? s.state ?? 1);
 
-      const firstPending = steps.find(s => getStepStatus(s) !== 2);
+      const approvedCount = steps.filter(s => getStepStatus(s) === 2).length;
       const rejected = steps.some(s => getStepStatus(s) === 3);
+      const observed = steps.some(s => getStepStatus(s) === 4);
+      const allApproved = approvedCount === steps.length && steps.length > 0;
+      const pending = steps.some(s => getStepStatus(s) === 1);
 
+      let icon = '<i class="bi bi-hourglass-split text-secondary"></i>';
+      if (rejected) icon = '<i class="bi bi-x-circle-fill text-danger"></i>';
+      else if (observed) icon = '<i class="bi bi-exclamation-triangle-fill text-warning"></i>';
+      else if (allApproved) icon = '<i class="bi bi-check-circle-fill text-success"></i>';
+
+      if (flowInfo) {
+        flowInfo.innerHTML = `<span class="fw-bold">${approvedCount}/${steps.length}</span> ${icon}`;
+      }
+
+      const firstPending = steps.find(s => getStepStatus(s) !== 2);
       const options = steps
         .map(s => {
           const roleName =
@@ -63,11 +77,11 @@ async function populateSteps(proposalId) {
 
           if (state === 2) {
             icon = '✓';
-            color = 'color: #6c757d;';
+            color = 'color: #198754;';
             disabled = true;
-            cls = 'text-muted';
-          } else if (state === 1 || state === 4) {
-            icon = state === 4 ? '⚠' : '⌛';
+            cls = 'text-success';
+          } else if (state === 1) {
+            icon = '⌛';
             disabled = firstPending && s.id !== firstPending.id;
             if (disabled) cls = 'text-muted';
           } else if (state === 3) {
@@ -75,6 +89,11 @@ async function populateSteps(proposalId) {
             color = 'color: #dc3545;';
             disabled = true;
             cls = 'text-danger';
+          } else if (state === 4) {
+            icon = '⚠';
+            color = 'color: #ffc107;';
+            disabled = firstPending && s.id !== firstPending.id;
+            if (disabled) cls = 'text-muted';
           }
 
           return `
@@ -86,8 +105,11 @@ async function populateSteps(proposalId) {
 
       select.innerHTML = '<option value="">Seleccione...</option>' + options;
       select.disabled = rejected;
+    } else if (flowInfo) {
+      flowInfo.innerHTML = '';
     }
   } catch (err) {
+    if (flowInfo) flowInfo.innerHTML = '';
     console.error('Error cargando pasos', err);
   }
 }

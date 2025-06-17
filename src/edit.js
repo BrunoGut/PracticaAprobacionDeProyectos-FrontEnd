@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  populateProjectDropdown();
+  renderProjectDropdown({ inputId: 'id', dropdownId: 'projectDropdown' });
 
   setupForm({
     formId: 'editForm',

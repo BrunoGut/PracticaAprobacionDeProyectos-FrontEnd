@@ -37,14 +37,13 @@ document.addEventListener('DOMContentLoaded', () => {
     formId: 'createForm',
     endpoint: `${API_BASE_URL}/api/Project`,
     method: 'POST',
+    confirmBeforeSubmit: true, // ✅ aquí agregás la propiedad
     renderResult: (data, div) => {
-      const card = renderProjectCard ? renderProjectCard(data) : '';
       div.innerHTML =
         '<div class="alert alert-success d-flex align-items-center">' +
         '<i class="bi bi-check-circle-fill me-2"></i>' +
         'Proyecto creado correctamente' +
-        '</div>' +
-        card;
+        '</div>';
     }
   });
 });
