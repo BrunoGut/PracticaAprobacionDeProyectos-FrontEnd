@@ -18,21 +18,39 @@ function setupForm(config) {
       }
     }
 
-    if (config.confirmBeforeSubmit && !form._confirmed) {
-      const fieldsToShow = ['title', 'description', 'estimatedAmount', 'estimatedDuration'];
-      const summary = fieldsToShow
+  if (config.confirmBeforeSubmit && !form._confirmed) {
+    const defaultFields = ['title', 'description', 'estimatedAmount', 'estimatedDuration'];
+    let fieldsToShow = defaultFields;
+    let title = '¿Confirmar creación del proyecto?';
+    let message;
+
+    if (typeof config.confirmBeforeSubmit === 'object') {
+      fieldsToShow = config.confirmBeforeSubmit.fields || fieldsToShow;
+      title = config.confirmBeforeSubmit.title || title;
+      if (config.confirmBeforeSubmit.message) {
+        message =
+          typeof config.confirmBeforeSubmit.message === 'function'
+            ? config.confirmBeforeSubmit.message(payload)
+            : config.confirmBeforeSubmit.message;
+      }
+    }
+
+    if (!message) {
+      message = fieldsToShow
         .map(key => `<strong>${key}:</strong> ${payload[key] ?? ''}`)
         .join('<br/>');
-      showConfirmModal({
-        title: '¿Confirmar creación del proyecto?',
-        message: summary,
-        onConfirm: () => {
-          form._confirmed = true;
-          form.requestSubmit(); // vuelve a disparar el evento
-        }
-      });
-      return;
     }
+
+    showConfirmModal({
+      title,
+      message,
+      onConfirm: () => {
+        form._confirmed = true;
+        form.requestSubmit(); // vuelve a disparar el evento
+      }
+    });
+    return;
+  }
 
     form._confirmed = false;
 

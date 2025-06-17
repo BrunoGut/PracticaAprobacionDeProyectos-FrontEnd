@@ -170,6 +170,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     endpoint: `${API_BASE_URL}/api/Project/{proposalId}/decision`,
     method: 'PATCH',
     pathParams: ['proposalId'],
+    confirmBeforeSubmit: {
+      title: '¿Confirmar decisión?',
+      message: payload => {
+        const map = { 2: 'Aprobado', 3: 'Rechazado', 4: 'Observado' };
+        const status = map[payload.status] || payload.status;
+        return (
+          `<strong>ID Proyecto:</strong> ${payload.proposalId}<br/>` +
+          `<strong>ID Paso:</strong> ${payload.id}<br/>` +
+          `<strong>Aprobador:</strong> ${payload.user}<br/>` +
+          `<strong>Estado:</strong> ${status}<br/>` +
+          `<strong>Observación:</strong> ${payload.observation || ''}`
+        );
+      }
+    },
     reset: false,
     afterSuccess: () => {
       if (proposalId) {
