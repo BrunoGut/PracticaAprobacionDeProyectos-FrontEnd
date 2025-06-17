@@ -33,24 +33,34 @@ async function populateSteps(proposalId) {
         steps = project.projectApprovalSteps || project.steps || [];
       }
     }
+
     if (steps.length) {
       steps.sort((a, b) => (a.stepOrder || 0) - (b.stepOrder || 0));
-      const firstPending = steps.find(s => Number(s.status || s.state) !== 2);
-      const rejected = steps.some(s => Number(s.status || s.state) === 3);
+
+      const getStepStatus = s =>
+        typeof s.status === 'object' && s.status?.id !== undefined
+          ? Number(s.status.id)
+          : Number(s.status ?? s.state ?? 1);
+
+      const firstPending = steps.find(s => getStepStatus(s) !== 2);
+      const rejected = steps.some(s => getStepStatus(s) === 3);
+
       const options = steps
         .map(s => {
           const roleName =
-            (s.approverRole && (s.approverRole.name || s.approverRole.title)) ||
-            s.approverRoleName ||
-            s.roleName ||
-            s.role ||
-            s.approver ||
+            (s.approverRole?.name || s.approverRole?.title) ??
+            s.approverRoleName ??
+            s.roleName ??
+            s.role ??
+            s.approver ??
             '';
-          const state = Number(s.status || s.state || 1);
+
+          const state = getStepStatus(s);
           let icon = '';
           let color = '';
           let disabled = false;
           let cls = '';
+
           if (state === 2) {
             icon = '✓';
             color = 'color: #6c757d;';
@@ -66,14 +76,16 @@ async function populateSteps(proposalId) {
             disabled = true;
             cls = 'text-danger';
           }
-          return (
-            `<option value="${s.id}" ${disabled ? 'disabled' : ''} class="${cls}" style="${color}">` +
-            `${icon} Paso ${s.stepOrder} - ${roleName}</option>`
-          );
+
+          return `
+            <option value="${s.id}" ${disabled ? 'disabled' : ''} class="${cls}" style="${color}">
+              ${icon} Paso ${s.stepOrder} - ${roleName}
+            </option>`;
         })
         .join('');
+
       select.innerHTML = '<option value="">Seleccione...</option>' + options;
-      if (rejected) select.disabled = true; else select.disabled = false;
+      select.disabled = rejected;
     }
   } catch (err) {
     console.error('Error cargando pasos', err);
