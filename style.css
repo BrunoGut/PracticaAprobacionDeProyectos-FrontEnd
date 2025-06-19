@@ -534,6 +534,7 @@ nav.navbar .nav-link:hover::after {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
 }
 
 .project-detail-modern {
@@ -813,24 +814,28 @@ nav.navbar .nav-link:hover::after {
   margin-right: auto;
 }
 .view-page-content #projectInfo {
-  width: 100vw;
+  width: 100%;
+  max-width: 1200px;
   display: flex;
   justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 .view-page-content .project-details-grid {
   justify-content: center;
-  width: 100vw;
+  width: 100%;
 }
 @media (max-width: 900px) {
   .view-page-content #projectInfo {
     flex-direction: column;
     align-items: center;
-    width: 100vw;
+    max-width: 98vw;
+    width: 100%;
   }
   .view-page-content .project-details-grid {
     flex-direction: column;
     align-items: center;
-    width: 100vw;
+    width: 100%;
   }
 }
 
