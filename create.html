@@ -31,13 +31,16 @@
           </div>
           <div class="mb-3">
             <label for="estimatedAmount" class="form-label">Monto Estimado</label>
-            <input
-              type="number"
-              class="form-control"
-              id="estimatedAmount"
-              name="estimatedAmount"
-              placeholder="Monto"
-            />
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              <input
+                type="number"
+                class="form-control"
+                id="estimatedAmount"
+                name="estimatedAmount"
+                placeholder="Monto"
+              />
+            </div>
           </div>
           <div class="mb-3">
             <label for="estimatedDuration" class="form-label">Duración Estimada (días)</label>
@@ -86,5 +89,15 @@
   <script src="src/create.js"></script>
   <script src="src/nav.js"></script>
   <script src="src/components/confirmModal.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var clearBtn = document.getElementById('clearBtn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+          clearBtn.blur();
+        });
+      }
+    });
+  </script>
 </body>
 </html>

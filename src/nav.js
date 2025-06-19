@@ -8,6 +8,7 @@ function renderNav() {
     '<li class="nav-item me-3"><a class="nav-link" href="create.html"><i class="bi bi-plus-circle"></i> Crear</a></li>' +
     '<li class="nav-item me-3"><a class="nav-link" href="edit.html"><i class="bi bi-pencil-square"></i> Editar</a></li>' +
     '<li class="nav-item me-3"><a class="nav-link" href="approve.html"><i class="bi bi-check-circle"></i> Aprobar</a></li>' +
+    '<li class="nav-item me-3"><a class="nav-link" href="view.html"><i class="bi bi-eye"></i> Ver</a></li>' +
     '<li class="nav-item"><a class="nav-link" href="search.html"><i class="bi bi-search"></i> Buscar</a></li>' +
     '</ul>' +
     '</div>'

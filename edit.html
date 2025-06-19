@@ -42,8 +42,11 @@
             <label for="duration" class="form-label">Duración Estimada (días)</label>
             <input type="number" class="form-control" id="duration" name="duration" placeholder="Duración" />
           </div>
-          <button type="submit" class="btn btn-success w-100">Guardar cambios</button>
           <div class="btn-group-row">
+            <button type="submit" class="btn btn-success w-100">Guardar cambios</button>
+          </div>
+          <div class="btn-group-row">
+            <a href="index.html" class="btn btn-volver">Volver al inicio</a>
             <button type="button" id="clearBtn" class="btn btn-limpiar">Limpiar</button>
           </div>
         </form>
@@ -65,5 +68,15 @@
   <script src="src/components/projectCard.js"></script>
   <script src="src/edit.js"></script>
   <script src="src/nav.js"></script>
+  <script>
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        document.getElementById('editForm').reset();
+        const result = document.getElementById('result');
+        if (result) result.innerHTML = '';
+        clearBtn.blur();
+      });
+    }
+  </script>
 </body>
 </html>

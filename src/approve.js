@@ -101,16 +101,13 @@ async function populateSteps(proposalId) {
           let cls = '';
 
           if (state === 2) {
-            icon = '✓';
             color = 'color: #6c757d;';
             disabled = true;
             cls = 'text-muted';
           } else if (state === 1 || state === 4) {
-            icon = state === 4 ? '⚠' : '⌛';
             disabled = firstPending && s.id !== firstPending.id;
             if (disabled) cls = 'text-muted';
           } else if (state === 3) {
-            icon = '✖';
             color = 'color: #dc3545;';
             disabled = true;
             cls = 'text-danger';
@@ -118,7 +115,7 @@ async function populateSteps(proposalId) {
 
           return `
             <option value="${s.id}" ${disabled ? 'disabled' : ''} class="${cls}" style="${color}">
-              ${icon} Paso ${s.stepOrder} - ${roleName}
+              Paso ${s.stepOrder} - ${roleName}
             </option>`;
         })
         .join('');
@@ -240,7 +237,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         populateSteps(proposalId);
       }
     },
-    renderResult: (data, div) => {
+    renderResult: async (data, div) => {
       const decision = (data.state || data.decision || '').toString().toLowerCase();
       let alertClass = 'info';
       let message = '';
@@ -256,16 +253,21 @@ document.addEventListener('DOMContentLoaded', async () => {
       } else {
         message = 'Se tomó la decisión: ' + decision;
       }
+      
       // Reemplazo el alert por un botón estilizado
       let btnClass = 'btn-success';
       if (alertClass === 'danger') btnClass = 'btn-danger';
       if (alertClass === 'warning') btnClass = 'btn-warning';
       if (alertClass === 'info') btnClass = 'btn-info';
-      div.innerHTML =
-        '<button type="button" class="btn w-100 ' + btnClass + ' d-flex align-items-center justify-content-center" style="margin-top: 1rem; cursor: default;" disabled>' +
-        '<i class="bi bi-info-circle-fill me-2"></i>' +
-        message +
-        '</button>';
+      div.innerHTML = ''; // Eliminar cualquier contenido previo
+
+      // Actualizar inmediatamente la barra de progreso y el estado
+      const proposalId = document.getElementById('proposalId')?.value;
+      if (proposalId) {
+        // Esperar un momento para que la API se actualice
+        await new Promise(resolve => setTimeout(resolve, 250));
+        await populateSteps(proposalId);
+      }
     }
   });
 });

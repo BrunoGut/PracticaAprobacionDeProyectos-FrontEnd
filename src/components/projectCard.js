@@ -25,8 +25,8 @@ function renderProjectCard(p, actionButtons) {
   const description = p.description || p.desc || '';
   const amount = p.amount ?? p.estimatedAmount ?? '';
   const duration = p.duration ?? p.estimatedDuration ?? '';
-  const area = (p.area && (p.area.name || p.area.title)) || p.areaName || '';
-  const type = (p.type && (p.type.name || p.type.title)) || p.typeName || '';
+  const area = p.area?.name || p.areaName || (p.area && (typeof p.area === 'string' ? p.area : '')) || '';
+  const type = p.type?.name || p.typeName || (p.type && (typeof p.type === 'string' ? p.type : '')) || '';
   const stateVal = (p.status && (p.status.id || p.status.name)) || p.state || p.status || p.stateId || '';
   const info = stateInfo(p.status?.id || p.state || p.status || p.stateId);
 
@@ -34,10 +34,10 @@ function renderProjectCard(p, actionButtons) {
     `<li class="project-list-item"><span class='project-label'>ID del proyecto:</span> <span class='project-value'>${id}</span></li>` +
     `<li class="project-list-item"><span class='project-label'>Título:</span> <span class='project-value'>${title}</span></li>` +
     `<li class="project-list-item"><span class='project-label'>Descripción:</span> <span class='project-value'>${description}</span></li>` +
-    `<li class="project-list-item"><span class='project-label'>Monto:</span> <span class='project-value'>${amount}</span></li>` +
+    `<li class="project-list-item"><span class='project-label'>Monto:</span> <span class='project-value'>$ ${amount}</span></li>` +
     `<li class="project-list-item"><span class='project-label'>Duración (en días):</span> <span class='project-value'>${duration}</span></li>` +
-    `<li class="project-list-item"><span class='project-label'>Área:</span> <span class='project-value'>${area}</span></li>` +
-    `<li class="project-list-item"><span class='project-label'>Tipo:</span> <span class='project-value'>${type}</span></li>` +
+    (area ? `<li class="project-list-item"><span class='project-label'>Área:</span> <span class='project-value'>${area}</span></li>` : '') +
+    (type ? `<li class="project-list-item"><span class='project-label'>Tipo:</span> <span class='project-value'>${type}</span></li>` : '') +
     `<li class="project-list-item"><span class='project-label'>Estado:</span> <span class='project-badge badge-${info.class}'>${info.text}</span></li>`;
 
   return (

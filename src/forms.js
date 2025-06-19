@@ -36,8 +36,20 @@ function setupForm(config) {
     }
 
     if (!message) {
+      const fieldLabels = {
+        title: 'Titulo',
+        description: 'Descripcion',
+        estimatedAmount: 'Monto',
+        estimatedDuration: 'Duracion (en dias)'
+      };
       message = fieldsToShow
-        .map(key => `<strong>${key}:</strong> ${payload[key] ?? ''}`)
+        .map(key => {
+          let value = payload[key] ?? '';
+          if (key === 'estimatedAmount' && value !== '') {
+            value = `$ ${value}`;
+          }
+          return `<strong>${fieldLabels[key] || key}:</strong> ${value}`;
+        })
         .join('<br/>');
     }
 
@@ -47,7 +59,8 @@ function setupForm(config) {
       onConfirm: () => {
         form._confirmed = true;
         form.requestSubmit(); // vuelve a disparar el evento
-      }
+      },
+      buttonStyle: 'border-radius: 24px;'
     });
     return;
   }
@@ -99,8 +112,8 @@ function setupForm(config) {
           } catch {}
         }
         resultDiv.innerHTML =
-          '<div class="alert alert-danger d-flex align-items-center">' +
-          '<i class="bi bi-exclamation-triangle-fill me-2"></i>' +
+          '<div class="alert alert-warning d-flex align-items-center" style="background:#fff3cd;color:#856404;border-color:#ffeeba;">' +
+          '<i class="bi bi-exclamation-triangle-fill me-2" style="color:#856404;"></i>' +
           message +
           '</div>';
         resultDiv.classList.add('error');
@@ -135,8 +148,8 @@ function setupForm(config) {
       }
     } catch (err) {
       resultDiv.innerHTML =
-        '<div class="alert alert-danger d-flex align-items-center">' +
-        '<i class="bi bi-exclamation-triangle-fill me-2"></i>' +
+        '<div class="alert alert-warning d-flex align-items-center" style="background:#fff3cd;color:#856404;border-color:#ffeeba;">' +
+        '<i class="bi bi-exclamation-triangle-fill me-2" style="color:#856404;"></i>' +
         `Error de red: ${err.message}` +
         '</div>';
       resultDiv.classList.add('error');

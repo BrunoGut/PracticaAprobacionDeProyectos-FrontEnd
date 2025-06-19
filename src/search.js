@@ -43,15 +43,47 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (result) result.innerHTML = '';
     });
   }
+
+  // Check if there's an ID in the URL parameters
+  const params = new URLSearchParams(window.location.search);
+  const projectId = params.get('id');
+  if (projectId) {
+    // If there's an ID, set it in the form and submit it
+    const idInput = document.getElementById('id');
+    if (idInput) {
+      idInput.value = projectId;
+      const searchForm = document.getElementById('searchForm');
+      if (searchForm) {
+        searchForm.dispatchEvent(new Event('submit'));
+      }
+    }
+  }
+
   setupForm({
     formId: 'searchForm',
     endpoint: `${API_BASE_URL}/api/Project`,
     method: 'GET',
-    renderResult: (data, div) => {
+    renderResult: async (data, div) => {
       const projects = Array.isArray(data) ? data : [data];
+      
+      // Obtener detalles completos de cada proyecto
+      const projectsWithDetails = await Promise.all(
+        projects.map(async (p) => {
+          try {
+            const resp = await fetch(`${API_BASE_URL}/api/Project/${p.id}`);
+            if (resp.ok) {
+              return await resp.json();
+            }
+          } catch (err) {
+            console.error('Error fetching project details:', err);
+          }
+          return p;
+        })
+      );
+
       const PROJECTS_PER_PAGE = 4;
       let currentPage = 1;
-      const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
+      const totalPages = Math.ceil(projectsWithDetails.length / PROJECTS_PER_PAGE);
       // Usar el contenedor dedicado para los resultados
       const resultsContainer = document.getElementById('projectResultsContainer');
       if (resultsContainer) resultsContainer.innerHTML = '';
@@ -59,13 +91,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       function actionButtons(id) {
         if (!id) return '';
         return (
-          '<div class="d-flex justify-content-between mt-2">' +
-          '<div>' +
-          `<a href="approve.html?proposalId=${encodeURIComponent(id)}&status=2" class="btn btn-success me-1">Aprobar</a>` +
-          `<a href="approve.html?proposalId=${encodeURIComponent(id)}&status=3" class="btn btn-danger me-1">Rechazar</a>` +
-          `<a href="approve.html?proposalId=${encodeURIComponent(id)}&status=4" class="btn btn-warning">Observar</a>` +
-          '</div>' +
-          `<a href="edit.html?id=${encodeURIComponent(id)}" class="btn btn-primary">Editar</a>` +
+          '<div class="d-flex justify-content-end mt-2">' +
+          `<a href="view.html?id=${encodeURIComponent(id)}" class="btn btn-primary"><i class="bi bi-eye"></i> Ver Proyecto</a>` +
           '</div>'
         );
       }
@@ -74,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         currentPage = page;
         const start = (page - 1) * PROJECTS_PER_PAGE;
         const end = start + PROJECTS_PER_PAGE;
-        const pageProjects = projects.slice(start, end);
+        const pageProjects = projectsWithDetails.slice(start, end);
         if (resultsContainer) resultsContainer.innerHTML = '';
         if (pageProjects.length === 0) {
           if (resultsContainer) {

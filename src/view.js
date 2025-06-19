@@ -5,6 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('projectId');
   const clearBtn = document.getElementById('clearBtn');
 
+  // Verificar si hay un ID en la URL y cargarlo automáticamente
+  const params = new URLSearchParams(window.location.search);
+  const projectId = params.get('id');
+  if (projectId && input) {
+    input.value = projectId;
+    // Disparar el evento submit del formulario
+    form.dispatchEvent(new Event('submit'));
+  }
+
   // Poblar el dropdown de proyectos (igual que en aprobar/buscar)
   async function populateProjectDropdown() {
     if (!dropdown) return;
@@ -53,49 +62,49 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="row g-3">
             <div class="col-12">
               <div class="detail-block">
-                <div class="detail-label">Título</div>
+                <div class="detail-label"><i class="bi bi-bookmark"></i><span>Título</span></div>
                 <div class="detail-value">${p.title || ''}</div>
               </div>
             </div>
             <div class="col-12">
               <div class="detail-block">
-                <div class="detail-label">Descripción</div>
+                <div class="detail-label"><i class="bi bi-card-text"></i><span>Descripción</span></div>
                 <div class="detail-value">${p.description || ''}</div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="detail-block">
-                <div class="detail-label">Monto</div>
-                <div class="detail-value text-orange fw-bold" style="font-size:1.3em;">$ ${p.amount?.toLocaleString('es-AR', {minimumFractionDigits:2}) || ''}</div>
+                <div class="detail-label"><i class="bi bi-currency-dollar"></i><span>Monto</span></div>
+                <div class="detail-value text-success" style="font-size:1.3em;">$ ${p.amount?.toLocaleString('es-AR', {minimumFractionDigits:2}) || ''}</div>
               </div>
             </div>
             <div class="col-md-6">
               <div class="detail-block">
-                <div class="detail-label">Duración</div>
-                <div class="detail-value text-orange fw-bold" style="font-size:1.1em;">${p.duration ? p.duration + ' días' : ''}</div>
+                <div class="detail-label"><i class="bi bi-calendar-event"></i><span>Duración</span></div>
+                <div class="detail-value" style="font-size:1.1em;">${p.duration ? p.duration + ' días' : ''}</div>
               </div>
             </div>
             <div class="col-md-4">
               <div class="detail-block">
-                <div class="detail-label">Área</div>
-                <div class="detail-value fw-bold">${p.area?.name || ''}</div>
+                <div class="detail-label"><i class="bi bi-building"></i><span>Área</span></div>
+                <div class="detail-value">${p.area?.name || ''}</div>
               </div>
             </div>
             <div class="col-md-4">
               <div class="detail-block">
-                <div class="detail-label">Estado</div>
+                <div class="detail-label"><i class="bi bi-flag"></i><span>Estado</span></div>
                 <div class="detail-value">${p.status?.name || ''}</div>
               </div>
             </div>
             <div class="col-md-4">
               <div class="detail-block">
-                <div class="detail-label">Tipo de proyecto</div>
-                <div class="detail-value fw-bold">${p.type?.name || ''}</div>
+                <div class="detail-label"><i class="bi bi-folder"></i><span>Tipo de proyecto</span></div>
+                <div class="detail-value">${p.type?.name || ''}</div>
               </div>
             </div>
             <div class="col-12">
               <div class="detail-block">
-                <div class="detail-label">Usuario que creó el proyecto</div>
+                <div class="detail-label"><i class="bi bi-person"></i><span>Usuario que creó el proyecto</span></div>
                 <div class="detail-value">
                   <strong>Nombre:</strong> ${p.user?.name || ''}<br/>
                   <strong>Email:</strong> ${p.user?.email || ''}<br/>
@@ -105,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
             <div class="col-12">
               <div class="detail-block">
-                <div class="detail-label">Pasos de aprobación</div>
+                <div class="detail-label"><i class="bi bi-check2-square"></i><span>Pasos de aprobación</span></div>
                 <div class="table-responsive">
                   <table class="table table-sm table-bordered project-detail-table mb-0">
                     <thead class="table-light">
@@ -116,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <th>Usuario aprobador</th>
                         <th>Rol aprobador</th>
                         <th>Estado</th>
+                        <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -127,6 +137,11 @@ document.addEventListener('DOMContentLoaded', () => {
                           <td>${step.approverUser?.name || ''}</td>
                           <td>${step.approverRole?.name || ''}</td>
                           <td>${step.status?.name || ''}</td>
+                          <td>
+                            <a href="approve.html?proposalId=${encodeURIComponent(p.id)}&status=2" class="btn btn-success btn-sm btn-action-xs me-1" title="Aprobar"><i class="bi bi-check-circle"></i></a>
+                            <a href="approve.html?proposalId=${encodeURIComponent(p.id)}&status=3" class="btn btn-danger btn-sm btn-action-xs me-1" title="Rechazar"><i class="bi bi-x-circle"></i></a>
+                            <a href="approve.html?proposalId=${encodeURIComponent(p.id)}&status=4" class="btn btn-warning btn-sm btn-action-xs" title="Observar" style="color:#fff;"><i class="bi bi-exclamation-circle"></i></a>
+                          </td>
                         </tr>
                       `).join('')}
                     </tbody>
@@ -136,8 +151,8 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           </div>
           <div class="d-flex justify-content-end gap-2 mt-4">
-            <button class="btn btn-warning"><i class="bi bi-printer"></i> Imprimir</button>
-            <button class="btn btn-primary"><i class="bi bi-pencil-square"></i> Editar Proyecto</button>
+            <button class="btn btn-volver" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><i class="bi bi-arrow-left"></i> Regresar</button>
+            <a class="btn btn-primary" href="edit.html?id=${encodeURIComponent(p.id)}"><i class="bi bi-pencil-square"></i> Editar Proyecto</a>
           </div>
         </div>
       `;

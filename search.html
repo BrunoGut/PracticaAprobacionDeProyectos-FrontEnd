@@ -20,6 +20,7 @@
       </div>
       <div class="form-main-minimal">
         <form id="searchForm" class="form">
+          <input type="hidden" id="id" name="id" />
           <div class="mb-3">
             <label for="title" class="form-label">Título</label>
             <input type="text" class="form-control" id="title" name="title" placeholder="Título" />
@@ -61,5 +62,15 @@
   <script src="src/components/projectCard.js"></script>
   <script src="src/search.js"></script>
   <script src="src/nav.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var clearBtn = document.getElementById('clearBtn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+          clearBtn.blur();
+        });
+      }
+    });
+  </script>
 </body>
 </html>

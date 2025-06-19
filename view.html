@@ -11,13 +11,14 @@
 <body class="body">
   <nav class="navbar navbar-dark" id="mainNav"></nav>
   <main class="container py-4">
+    <!-- Contenedor principal dividido en 2 columnas -->
     <div class="form-minimal-container">
       <div class="form-side-minimal">
         <div class="side-line"></div>
         <h2 class="side-title-minimal">Ver Proyecto</h2>
         <p class="side-desc-minimal">Ingresá el ID de un proyecto para ver toda su información detallada.</p>
       </div>
-      <div class="form-main-minimal view-page-content">
+      <div class="form-main-minimal">
         <form id="viewForm" class="form mb-4">
           <div class="mb-3">
             <label for="projectId" class="form-label">ID del proyecto</label>
@@ -31,14 +32,18 @@
           </div>
           <div class="btn-group-row">
             <button type="submit" class="btn btn-success w-100">Ver información</button>
-            <div class="btn-group-row">
-              <a href="index.html" class="btn btn-volver">Volver al inicio</a>
-              <button type="button" id="clearBtn" class="btn btn-limpiar">Limpiar</button>
-            </div>
+          </div>
+          <div class="btn-group-row">
+            <a href="index.html" class="btn btn-volver">Volver al inicio</a>
+            <button type="button" id="clearBtn" class="btn btn-limpiar">Limpiar</button>
           </div>
         </form>
-        <div id="projectInfo"></div>
       </div>
+    </div>
+
+    <!-- Caja de información centrada -->
+    <div class="project-center-container">
+      <div id="projectInfo" class="project-card-container"></div>
     </div>
   </main>
   <footer class="footer">
@@ -52,5 +57,15 @@
   <script src="src/components/projectCard.js"></script>
   <script src="src/view.js"></script>
   <script src="src/nav.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var clearBtn = document.getElementById('clearBtn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+          clearBtn.blur();
+        });
+      }
+    });
+  </script>
 </body>
-</html> 
+</html>

@@ -1,6 +1,6 @@
 // Componente reutilizable para mostrar un modal de confirmación
 // Uso: showConfirmModal({ title, message, onConfirm })
-function showConfirmModal({ title, message, onConfirm }) {
+function showConfirmModal({ title, message, onConfirm, buttonStyle }) {
   // Eliminar cualquier modal anterior
   const old = document.getElementById('confirmModal');
   if (old) old.remove();
@@ -17,8 +17,8 @@ function showConfirmModal({ title, message, onConfirm }) {
             <div>${message}</div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-success" id="confirmActionBtn">Confirmar</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="${buttonStyle || ''}">Cancelar</button>
+            <button type="button" class="btn btn-success" id="confirmActionBtn" style="${buttonStyle || ''}">Confirmar</button>
           </div>
         </div>
       </div>
