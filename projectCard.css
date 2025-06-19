@@ -1,0 +1,441 @@
+.project-card-modern {
+  max-width: 1100px;
+  min-width: 0;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 0 0.5rem 0;
+}
+.project-card-header-modern {
+  background: #fff;
+  color: #222;
+  font-weight: bold;
+  font-size: 1.13em;
+  border-radius: 24px 24px 0 0;
+  padding: 1.1rem 1.5rem 0.7rem 1.5rem;
+  border-bottom: 1.5px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.project-list {
+  list-style: none;
+  padding: 0 1.5rem;
+  margin: 0;
+}
+.project-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+  padding: 0.45em 0;
+  border-bottom: 1px solid #f2f2f2;
+  font-size: 1.01em;
+}
+.project-list-item:last-child {
+  border-bottom: none;
+}
+.project-label {
+  font-weight: 600;
+  color: #222;
+  min-width: 120px;
+  display: inline-block;
+}
+.project-value {
+  color: #444;
+  font-weight: 400;
+  word-break: break-all;
+}
+.project-badge {
+  display: inline-block;
+  padding: 0.18em 1.1em;
+  border-radius: 16px;
+  font-size: 0.98em;
+  font-weight: bold;
+  margin-left: 0.3em;
+}
+.badge-success {
+  background: #219150;
+  color: #fff;
+}
+.badge-danger {
+  background: #E52514;
+  color: #fff;
+}
+.badge-warning {
+  background: #ffc107;
+  color: #222;
+}
+.badge-secondary {
+  background: #8F8F9F;
+  color: #fff;
+}
+.project-card-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  padding: 0 1.5rem;
+  margin-top: 0.7em;
+}
+.project-card-actions .btn {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 44px;
+  border-radius: 22px !important;
+  font-size: 1.08em;
+  font-weight: bold;
+  padding: 0 1.2em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s, color 0.18s;
+  box-shadow: none;
+  border: none;
+  margin: 0;
+}
+.project-card-actions .btn-success {
+  background: #219150;
+  color: #fff;
+}
+.project-card-actions .btn-success:hover, .project-card-actions .btn-success:focus {
+  background: #176b3a;
+  color: #fff;
+}
+.project-card-actions .btn-danger {
+  background: #E52514;
+  color: #fff;
+}
+.project-card-actions .btn-danger:hover, .project-card-actions .btn-danger:focus {
+  background: #b91c0b;
+  color: #fff;
+}
+.project-card-actions .btn-warning {
+  background: #ffc107;
+  color: #222;
+}
+.project-card-actions .btn-warning:hover, .project-card-actions .btn-warning:focus {
+  background: #e0a800;
+  color: #222;
+}
+.project-card-actions .btn-primary {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 24px !important;
+}
+.project-card-actions .btn-primary:hover, .project-card-actions .btn-primary:focus {
+  background: #1256a0;
+  color: #fff;
+}
+
+.project-results-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+  gap: 2.2rem 2.2rem;
+  justify-content: center;
+  align-items: start;
+  margin: 2.5rem auto 1.5rem auto;
+  max-width: 1200px;
+}
+@media (max-width: 900px) {
+  .project-results-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+    max-width: 98vw;
+  }
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1.5rem 0 2.5rem 0;
+}
+.pagination-btn {
+  background: #8F8F9F;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 0.5em 1.2em;
+  font-weight: bold;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+}
+.pagination-btn.active, .pagination-btn:focus {
+  background: #E52514;
+  color: #fff;
+}
+.pagination-btn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.project-details-grid {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.project-card-modern {
+  flex: 1 1 0;
+  max-width: 420px;
+  min-width: 320px;
+  background: #fff;
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  padding: 0 0 1.2rem 0;
+  margin: 0;
+  border: none;
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 900px) {
+  .project-details-grid {
+    flex-direction: column;
+    gap: 1.2rem;
+    max-width: 98vw;
+  }
+  .project-card-modern {
+    max-width: 100%;
+    min-width: 0;
+  }
+}
+
+.view-page-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.view-page-content #viewForm {
+  width: 100%;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.view-page-content .project-details-grid {
+  justify-content: center;
+  width: 100vw;
+}
+
+.view-page-content #projectInfo {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 2rem auto;
+}
+
+.project-card-container {
+  width: 100%;
+  max-width: 720px;
+}
+
+@media (max-width: 900px) {
+  .view-page-content #projectInfo {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .view-page-content .project-details-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+}
+
+.project-detail-table {
+  width: 100%;
+  table-layout: auto;
+  word-break: break-word;
+}
+
+.project-detail-modern {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  padding: 2.2rem 2.2rem 1.2rem 2.2rem;
+}
+.detail-block {
+  background: #f9f9f9;
+  border-radius: 12px;
+  padding: 1.1rem 1.2rem;
+  margin-bottom: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.detail-label {
+  background: #f8f9fa;
+  padding: 0.8rem 1rem;
+  border-radius: 24px;
+  margin-bottom: 0.5rem;
+  color: #495057;
+  font-weight: 500;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.3s ease;
+}
+.detail-label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background-color: #e52514;
+  transition: width 0.3s ease;
+}
+.detail-label:hover {
+  color: #fff;
+}
+.detail-label:hover::before {
+  width: 100%;
+}
+.detail-label i {
+  color: #6c757d;
+  font-size: 1.1em;
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s ease;
+}
+.detail-label span {
+  position: relative;
+  z-index: 1;
+}
+.detail-label:hover i,
+.detail-label:hover span {
+  color: #fff;
+}
+.detail-value {
+  padding: 0.3rem 1rem;
+}
+.text-orange {
+  color: #e67c1a !important;
+}
+.project-detail-modern .btn {
+  font-weight: 600;
+  font-size: 1.08em;
+  border-radius: 24px;
+  padding: 0.6em 1.6em;
+}
+.project-detail-modern .btn-warning {
+  background: #ffb84d;
+  color: #fff;
+  border: none;
+}
+.project-detail-modern .btn-warning:hover {
+  background: #e67c1a;
+  color: #fff;
+}
+.project-detail-modern .btn-primary {
+  background: #ff6600;
+  color: #fff;
+  border: none;
+}
+.project-detail-modern .btn-primary:hover {
+  background: #c94d00;
+  color: #fff;
+}
+
+/* Centrado horizontal de la caja de detalles en la vista de proyecto */
+.view-page-content, .form-main-minimal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .project-detail-modern {
+    max-width: 98vw;
+  }
+}
+
+@media (min-width: 900px) {
+  .form-main-minimal {
+    max-width: 100%;
+  }
+}
+
+.project-center-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* Botones de acción extra pequeños para la tabla de pasos de aprobación (ajustados +1px) */
+.btn-action-xs {
+  padding: 0.18em 0.7em !important;
+  font-size: 0.97em !important;
+  height: 27px !important;
+  line-height: 1 !important;
+  border-radius: 16px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+}
+
+/* Corrige el color y centrado del botón de observar */
+.btn-action-xs.btn-warning {
+  color: #fff !important;
+  text-align: center;
+}
+
+/* Centrar y alinear horizontalmente los botones en la celda de acciones */
+.project-detail-table td:last-child {
+  text-align: center;
+  vertical-align: middle;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45em;
+  padding: 0.5rem;
+  min-width: 160px;
+}
+
+.project-detail-table td:last-child .btn-action-xs {
+  margin: 0;
+}
+
+/* Hacer la tabla responsive y con scroll horizontal si es necesario */
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1rem;
+}
+
+.project-detail-table th,
+.project-detail-table td {
+  white-space: nowrap;
+  padding: 0.75rem;
+}
+
+/* Estilos para el campo de monto con signo $ */
+.form-main-minimal .input-group-text {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #8F8F9F;
+  border-radius: 0;
+  color: #222;
+  font-size: 1.08em;
+  padding: 0.5em 0.2em;
+}
+
+.form-main-minimal .input-group .form-control {
+  border-left: none;
+}
+
+.form-main-minimal .input-group:focus-within .input-group-text {
+  border-bottom: 2.5px solid #E52514;
+}
+
