@@ -12,28 +12,40 @@
   <nav class="navbar navbar-dark" id="mainNav"></nav>
 
   <main class="container py-4">
-    <h1 class="mb-3">Buscar Proyecto</h1>
-    <form id="searchForm" class="form">
-      <div class="mb-3">
-        <label for="title" class="form-label">Título</label>
-        <input type="text" class="form-control" id="title" name="title" placeholder="Título" />
+    <div class="form-minimal-container">
+      <div class="form-side-minimal">
+        <div class="side-line"></div>
+        <h2 class="side-title-minimal">Buscar Proyecto</h2>
+        <p class="side-desc-minimal">Utilizá los filtros para encontrar proyectos existentes en la plataforma.</p>
       </div>
-      <div class="mb-3">
-        <label for="state" class="form-label">Estado</label>
-        <select class="form-select" id="state" name="status"></select>
+      <div class="form-main-minimal">
+        <form id="searchForm" class="form">
+          <div class="mb-3">
+            <label for="title" class="form-label">Título</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Título" />
+          </div>
+          <div class="mb-3">
+            <label for="state" class="form-label">Estado</label>
+            <select class="form-select" id="state" name="status"></select>
+          </div>
+          <div class="mb-3">
+            <label for="applicant" class="form-label">Aplicante</label>
+            <select class="form-select" id="applicant" name="applicant"></select>
+          </div>
+          <div class="mb-3">
+            <label for="approver" class="form-label">Aprobador</label>
+            <select class="form-select" id="approver" name="approver"></select>
+          </div>
+          <button type="submit" class="btn btn-success w-100">Buscar</button>
+          <div class="btn-group-row">
+            <a href="index.html" class="btn btn-volver">Volver al inicio</a>
+            <button type="button" id="clearBtn" class="btn btn-limpiar">Limpiar</button>
+          </div>
+        </form>
+        <div id="result" class="result"></div>
       </div>
-      <div class="mb-3">
-        <label for="applicant" class="form-label">Aplicante</label>
-        <select class="form-select" id="applicant" name="applicant"></select>
-      </div>
-      <div class="mb-3">
-        <label for="approver" class="form-label">Aprobador</label>
-        <select class="form-select" id="approver" name="approver"></select>
-      </div>
-      <button type="submit" class="btn btn-success">Buscar</button>
-      <button type="button" id="clearBtn" class="btn btn-secondary ms-2">Limpiar</button>
-    </form>
-    <div id="result" class="result"></div>
+    </div>
+    <div id="projectResultsContainer"></div>
   </main>
 
   <footer class="footer">

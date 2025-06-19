@@ -12,52 +12,64 @@
   <nav class="navbar navbar-dark" id="mainNav"></nav>
 
   <main class="container py-4">
-    <h1 class="mb-3">Crear Nuevo Proyecto</h1>
-    <form id="createForm" class="form">
-      <div class="mb-3">
-        <label for="title" class="form-label">Título</label>
-        <input type="text" class="form-control" id="title" name="title" placeholder="Título del proyecto" />
+    <div class="form-minimal-container">
+      <div class="form-side-minimal">
+        <div class="side-line"></div>
+        <h2 class="side-title-minimal">Crear Proyecto</h2>
+        <p class="side-desc-minimal">Completá el formulario para registrar un nuevo proyecto en la plataforma.</p>
       </div>
-      <div class="mb-3">
-        <label for="description" class="form-label">Descripción</label>
-        <input type="text" class="form-control" id="description" name="description" placeholder="Descripción" />
+      <div class="form-main-minimal">
+        <h1 class="mb-4 text-center d-none">Crear Nuevo Proyecto</h1>
+        <form id="createForm" class="form">
+          <div class="mb-3">
+            <label for="title" class="form-label">Título</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Título del proyecto" />
+          </div>
+          <div class="mb-3">
+            <label for="description" class="form-label">Descripción</label>
+            <input type="text" class="form-control" id="description" name="description" placeholder="Descripción" />
+          </div>
+          <div class="mb-3">
+            <label for="estimatedAmount" class="form-label">Monto Estimado</label>
+            <input
+              type="number"
+              class="form-control"
+              id="estimatedAmount"
+              name="estimatedAmount"
+              placeholder="Monto"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="estimatedDuration" class="form-label">Duración Estimada (días)</label>
+            <input
+              type="number"
+              class="form-control"
+              id="estimatedDuration"
+              name="estimatedDuration"
+              placeholder="Duración"
+            />
+          </div>
+          <div class="mb-3">
+            <label for="areaId" class="form-label">Área</label>
+            <select class="form-select" id="areaId" name="areaId"></select>
+          </div>
+          <div class="mb-3">
+            <label for="user" class="form-label">Usuario</label>
+            <select class="form-select" id="user" name="user"></select>
+          </div>
+          <div class="mb-3">
+            <label for="typeId" class="form-label">Tipo de Proyecto</label>
+            <select class="form-select" id="typeId" name="typeId"></select>
+          </div>
+          <button type="submit" class="btn btn-success w-100">Crear proyecto</button>
+          <div class="btn-group-row">
+            <a href="index.html" class="btn btn-volver">Volver al inicio</a>
+            <button type="button" id="clearBtn" class="btn btn-limpiar">Limpiar</button>
+          </div>
+        </form>
+        <div id="result" class="result"></div>
       </div>
-      <div class="mb-3">
-        <label for="estimatedAmount" class="form-label">Monto Estimado</label>
-        <input
-          type="number"
-          class="form-control"
-          id="estimatedAmount"
-          name="estimatedAmount"
-          placeholder="Monto"
-        />
-      </div>
-      <div class="mb-3">
-        <label for="estimatedDuration" class="form-label">Duración Estimada (días)</label>
-        <input
-          type="number"
-          class="form-control"
-          id="estimatedDuration"
-          name="estimatedDuration"
-          placeholder="Duración"
-        />
-      </div>
-      <div class="mb-3">
-        <label for="areaId" class="form-label">Área</label>
-        <select class="form-select" id="areaId" name="areaId"></select>
-      </div>
-      <div class="mb-3">
-        <label for="user" class="form-label">Usuario</label>
-        <select class="form-select" id="user" name="user"></select>
-      </div>
-      <div class="mb-3">
-        <label for="typeId" class="form-label">Tipo de Proyecto</label>
-        <select class="form-select" id="typeId" name="typeId"></select>
-      </div>
-      <button type="submit" class="btn btn-success">Crear proyecto</button>
-      <button type="button" id="clearBtn" class="btn btn-secondary ms-2">Limpiar</button>
-    </form>
-    <div id="result" class="result"></div>
+    </div>
   </main>
 
   <footer class="footer">

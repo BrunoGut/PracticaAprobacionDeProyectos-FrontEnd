@@ -49,7 +49,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     method: 'GET',
     renderResult: (data, div) => {
       const projects = Array.isArray(data) ? data : [data];
-
+      const PROJECTS_PER_PAGE = 4;
+      let currentPage = 1;
+      const totalPages = Math.ceil(projects.length / PROJECTS_PER_PAGE);
+      // Usar el contenedor dedicado para los resultados
+      const resultsContainer = document.getElementById('projectResultsContainer');
+      if (resultsContainer) resultsContainer.innerHTML = '';
 
       function actionButtons(id) {
         if (!id) return '';
@@ -65,18 +70,50 @@ document.addEventListener('DOMContentLoaded', async () => {
         );
       }
 
-      if (projects.length === 0) {
-        div.innerHTML =
-          '<div class="alert alert-info d-flex align-items-center">' +
-          '<i class="bi bi-info-circle-fill me-2"></i>' +
-          'No se encontraron proyectos' +
-          '</div>';
-        return;
+      function renderPage(page) {
+        currentPage = page;
+        const start = (page - 1) * PROJECTS_PER_PAGE;
+        const end = start + PROJECTS_PER_PAGE;
+        const pageProjects = projects.slice(start, end);
+        if (resultsContainer) resultsContainer.innerHTML = '';
+        if (pageProjects.length === 0) {
+          if (resultsContainer) {
+            resultsContainer.innerHTML =
+              '<div class="alert alert-info d-flex align-items-center">' +
+              '<i class="bi bi-info-circle-fill me-2"></i>' +
+              'No se encontraron proyectos' +
+              '</div>';
+          }
+          return;
+        }
+        // Render grid
+        const grid = document.createElement('div');
+        grid.className = 'project-results-grid';
+        grid.innerHTML = pageProjects
+          .map(p => renderProjectCard(p, actionButtons))
+          .join('');
+        if (resultsContainer) resultsContainer.appendChild(grid);
+        // Render paginación
+        if (totalPages > 1) {
+          const pag = document.createElement('div');
+          pag.className = 'pagination';
+          pag.innerHTML =
+            `<button class='pagination-btn' ${currentPage === 1 ? 'disabled' : ''} data-page='prev'>&lt;</button>` +
+            Array.from({ length: totalPages }, (_, i) =>
+              `<button class='pagination-btn${i + 1 === currentPage ? ' active' : ''}' data-page='${i + 1}'>${i + 1}</button>`
+            ).join('') +
+            `<button class='pagination-btn' ${currentPage === totalPages ? 'disabled' : ''} data-page='next'>&gt;</button>`;
+          if (resultsContainer) resultsContainer.appendChild(pag);
+          pag.querySelectorAll('.pagination-btn').forEach(btn => {
+            btn.onclick = () => {
+              if (btn.dataset.page === 'prev' && currentPage > 1) renderPage(currentPage - 1);
+              else if (btn.dataset.page === 'next' && currentPage < totalPages) renderPage(currentPage + 1);
+              else if (!isNaN(Number(btn.dataset.page))) renderPage(Number(btn.dataset.page));
+            };
+          });
+        }
       }
-
-      div.innerHTML = projects
-        .map(p => renderProjectCard(p, actionButtons))
-        .join('');
+      renderPage(1);
     }
   });
 });

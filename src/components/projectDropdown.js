@@ -1,29 +1,58 @@
-// Componente reutilizable para dropdown de proyectos
-// Uso: renderProjectDropdown({ inputId, dropdownId, onSelect })
+// Componente reutilizable para seleccionar proyectos con dropdown
+// Uso: createProjectDropdown(container, { projects, onSelect, placeholder, initialValue })
 
-function renderProjectDropdown({ inputId, dropdownId, onSelect }) {
-  const input = document.getElementById(inputId);
-  const dropdown = document.getElementById(dropdownId);
-  if (!input || !dropdown) return;
+export function createProjectDropdown(container, {
+  projects = [],
+  onSelect = () => {},
+  placeholder = 'ID',
+  initialValue = ''
+} = {}) {
+  if (!container) return;
+  container.innerHTML = `
+    <div class="input-group">
+      <input type="text" class="form-control project-input" placeholder="${placeholder}" value="${initialValue}" />
+      <button class="btn btn-outline-secondary dropdown-toggle btn-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-list"></i>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end project-dropdown-menu"></ul>
+    </div>
+  `;
+  const input = container.querySelector('.project-input');
+  const menu = container.querySelector('.project-dropdown-menu');
 
-  fetch(`${API_BASE_URL}/api/Project`)
-    .then(resp => resp.ok ? resp.json() : [])
-    .then(projects => {
-      dropdown.innerHTML = projects
-        .map(p => `<li><a class="dropdown-item" data-id="${p.id}" href="#">${p.id} - ${p.title || p.name}</a></li>`)
-        .join('');
-      dropdown.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', e => {
-          e.preventDefault();
-          const id = a.getAttribute('data-id');
-          input.value = id;
-          if (typeof onSelect === 'function') onSelect(id, p);
-        });
+  function renderMenu(list) {
+    menu.innerHTML = list.map(p => `
+      <li><a class="dropdown-item" data-id="${p.id}" data-title="${p.title || p.name || ''}" href="#">
+        <span class='dropdown-title'>${p.title || p.name || p.id}</span>
+        <span class='dropdown-id'>${p.id}</span>
+      </a></li>
+    `).join('');
+    menu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        const id = a.getAttribute('data-id');
+        const title = a.getAttribute('data-title');
+        input.value = id;
+        onSelect({ id, title });
       });
-    })
-    .catch(() => {
-      dropdown.innerHTML = '<li class="dropdown-item text-danger">Error cargando proyectos</li>';
     });
-}
+  }
 
-window.renderProjectDropdown = renderProjectDropdown; 
+  renderMenu(projects);
+
+  // Si quieres filtrar por texto, puedes agregar aquí lógica de búsqueda
+  // input.addEventListener('input', ...)
+
+  // Permite actualizar los proyectos dinámicamente
+  return {
+    setProjects(newProjects) {
+      renderMenu(newProjects);
+    },
+    setValue(val) {
+      input.value = val;
+    },
+    getValue() {
+      return input.value;
+    }
+  };
+} 

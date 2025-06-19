@@ -20,7 +20,8 @@ async function populateSelect(id, endpoint) {
 
 async function populateSteps(proposalId) {
   const select = document.getElementById('id');
-  const flowInfo = document.getElementById('approvalFlowInfo');
+  const statusLabel = document.getElementById('projectStatusLabel');
+  const progressBar = document.getElementById('projectProgressBar');
   if (!select || !proposalId) return;
   try {
     let steps = [];
@@ -43,22 +44,46 @@ async function populateSteps(proposalId) {
           ? Number(s.status.id)
           : Number(s.status ?? s.state ?? 1);
 
-      const approvedCount = steps.filter(s => getStepStatus(s) === 2).length;
-      const rejected = steps.some(s => getStepStatus(s) === 3);
-      const observed = steps.some(s => getStepStatus(s) === 4);
-      const allApproved = approvedCount === steps.length && steps.length > 0;
-      const pending = steps.some(s => getStepStatus(s) === 1);
-
-      let icon = '<i class="bi bi-hourglass-split text-secondary"></i>';
-      if (rejected) icon = '<i class="bi bi-x-circle-fill text-danger"></i>';
-      else if (observed) icon = '<i class="bi bi-exclamation-triangle-fill text-warning"></i>';
-      else if (allApproved) icon = '<i class="bi bi-check-circle-fill text-success"></i>';
-
-      if (flowInfo) {
-        flowInfo.innerHTML = `<span class="fw-bold">${approvedCount}/${steps.length}</span> ${icon}`;
-      }
-
       const firstPending = steps.find(s => getStepStatus(s) !== 2);
+      const rejected = steps.some(s => getStepStatus(s) === 3);
+
+      // Estado general
+      let estado = 'Pendiente';
+      if (rejected) {
+        estado = 'Rechazado';
+      } else if (steps.every(s => getStepStatus(s) === 2)) {
+        estado = 'Aprobado';
+      } else if (steps.some(s => getStepStatus(s) === 4)) {
+        estado = 'Observado';
+      }
+      if (statusLabel) statusLabel.textContent = `Estado: ${estado}`;
+
+      // Progreso por segmentos (restaurado)
+      const total = steps.length;
+      let progressHTML = '';
+      steps.forEach((s, idx) => {
+        const state = getStepStatus(s);
+        let cls = 'progress-pendiente';
+        let txt = '';
+        if (state === 2) {
+          cls = 'progress-aprobado';
+          txt = '✓';
+        } else if (state === 3) {
+          cls = 'progress-rechazado';
+          txt = '✖';
+        } else if (state === 4) {
+          cls = 'progress-observado';
+          txt = '⚠';
+        } else {
+          cls = 'progress-pendiente';
+          txt = '';
+        }
+        const width = 100 / total;
+        const delay = idx * 0.15;
+        progressHTML += `<div class="progress-segment ${cls}" style="--final-width:${width}%; animation-delay:${delay}s">${txt}</div>`;
+      });
+      if (progressBar) progressBar.innerHTML = progressHTML;
+
       const options = steps
         .map(s => {
           const roleName =
@@ -77,11 +102,11 @@ async function populateSteps(proposalId) {
 
           if (state === 2) {
             icon = '✓';
-            color = 'color: #198754;';
+            color = 'color: #6c757d;';
             disabled = true;
-            cls = 'text-success';
-          } else if (state === 1) {
-            icon = '⌛';
+            cls = 'text-muted';
+          } else if (state === 1 || state === 4) {
+            icon = state === 4 ? '⚠' : '⌛';
             disabled = firstPending && s.id !== firstPending.id;
             if (disabled) cls = 'text-muted';
           } else if (state === 3) {
@@ -89,11 +114,6 @@ async function populateSteps(proposalId) {
             color = 'color: #dc3545;';
             disabled = true;
             cls = 'text-danger';
-          } else if (state === 4) {
-            icon = '⚠';
-            color = 'color: #ffc107;';
-            disabled = firstPending && s.id !== firstPending.id;
-            if (disabled) cls = 'text-muted';
           }
 
           return `
@@ -105,11 +125,15 @@ async function populateSteps(proposalId) {
 
       select.innerHTML = '<option value="">Seleccione...</option>' + options;
       select.disabled = rejected;
-    } else if (flowInfo) {
-      flowInfo.innerHTML = '';
+    }
+    // Si no hay pasos, limpiar barra y estado
+    else {
+      if (statusLabel) statusLabel.textContent = 'Estado: -';
+      if (progressBar) {
+        progressBar.innerHTML = '';
+      }
     }
   } catch (err) {
-    if (flowInfo) flowInfo.innerHTML = '';
     console.error('Error cargando pasos', err);
   }
 }
@@ -122,17 +146,49 @@ async function populateProposalDropdown() {
     if (resp.ok) {
       const projects = await resp.json();
       list.innerHTML = projects
-        .map(p => `<li><a class="dropdown-item" data-id="${p.id}" href="#">${p.id} - ${p.title || p.name}</a></li>`)
+        .map(p => `<li><a class="dropdown-item" data-id="${p.id}" data-title="${p.title || p.name || ''}" href="#"><span class='dropdown-title'>${p.title || p.name || p.id}</span><span class='dropdown-id'>${p.id}</span></a></li>`)
         .join('');
       list.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', e => {
+        a.addEventListener('click', async e => {
           e.preventDefault();
           const id = a.getAttribute('data-id');
           const input = document.getElementById('proposalId');
           if (input) input.value = id;
+          // Mostrar caja de proyecto seleccionado
+          const box = document.getElementById('selectedProjectBox');
+          const titleSpan = document.getElementById('selectedProjectTitle');
+          const descSpan = document.getElementById('selectedProjectDesc');
+          if (box && titleSpan && descSpan) {
+            // Obtener datos del proyecto
+            try {
+              const resp = await fetch(`${API_BASE_URL}/api/Project/${id}`);
+              if (resp.ok) {
+                const project = await resp.json();
+                titleSpan.textContent = project.title || project.name || '';
+                descSpan.textContent = project.description || '';
+              } else {
+                titleSpan.textContent = '';
+                descSpan.textContent = '';
+              }
+            } catch {
+              titleSpan.textContent = '';
+              descSpan.textContent = '';
+            }
+          }
           populateSteps(id);
         });
       });
+
+      // Limpiar caja de proyecto seleccionado al limpiar el formulario
+      const clearBtn = document.getElementById('clearBtn');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          const titleSpan = document.getElementById('selectedProjectTitle');
+          const descSpan = document.getElementById('selectedProjectDesc');
+          if (titleSpan) titleSpan.textContent = '';
+          if (descSpan) descSpan.textContent = '';
+        });
+      }
     }
   } catch (err) {
     console.error('Error cargando proyectos', err);
@@ -162,6 +218,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (result) result.innerHTML = '';
       const stepSelect = document.getElementById('id');
       if (stepSelect) stepSelect.innerHTML = '<option value="">Seleccione...</option>';
+      // Limpiar barra de progreso y estado
+      const statusLabel = document.getElementById('projectStatusLabel');
+      const progressBar = document.getElementById('projectProgressBar');
+      if (statusLabel) statusLabel.textContent = 'Estado: -';
+      if (progressBar) progressBar.innerHTML = '';
+      // Quitar foco del botón para evitar que quede presionado
+      clearBtn.blur();
     });
   }
 
@@ -170,20 +233,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     endpoint: `${API_BASE_URL}/api/Project/{proposalId}/decision`,
     method: 'PATCH',
     pathParams: ['proposalId'],
-    confirmBeforeSubmit: {
-      title: '¿Confirmar decisión?',
-      message: payload => {
-        const map = { 2: 'Aprobado', 3: 'Rechazado', 4: 'Observado' };
-        const status = map[payload.status] || payload.status;
-        return (
-          `<strong>ID Proyecto:</strong> ${payload.proposalId}<br/>` +
-          `<strong>ID Paso:</strong> ${payload.id}<br/>` +
-          `<strong>Aprobador:</strong> ${payload.user}<br/>` +
-          `<strong>Estado:</strong> ${status}<br/>` +
-          `<strong>Observación:</strong> ${payload.observation || ''}`
-        );
-      }
-    },
     reset: false,
     afterSuccess: () => {
       if (proposalId) {
@@ -207,11 +256,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       } else {
         message = 'Se tomó la decisión: ' + decision;
       }
+      // Reemplazo el alert por un botón estilizado
+      let btnClass = 'btn-success';
+      if (alertClass === 'danger') btnClass = 'btn-danger';
+      if (alertClass === 'warning') btnClass = 'btn-warning';
+      if (alertClass === 'info') btnClass = 'btn-info';
       div.innerHTML =
-        '<div class="alert alert-' + alertClass + ' d-flex align-items-center">' +
+        '<button type="button" class="btn w-100 ' + btnClass + ' d-flex align-items-center justify-content-center" style="margin-top: 1rem; cursor: default;" disabled>' +
         '<i class="bi bi-info-circle-fill me-2"></i>' +
         message +
-        '</div>';
+        '</button>';
     }
   });
 });

@@ -20,41 +20,34 @@ function stateInfo(value) {
 }
 
 function renderProjectCard(p, actionButtons) {
-  const id = getValue(p, ['id', 'projectId']);
-  const title = getValue(p, ['title', 'name']);
-  const description = getValue(p, ['description', 'desc']);
-  const amount = getValue(p, ['estimatedAmount', 'amount']);
-  const duration = getValue(p, ['estimatedDuration', 'duration']);
-  const area =
-    getValue(p, ['areaName', 'area']) ||
-    (p.area && (p.area.name || p.area.title)) ||
-    getValue(p, ['areaId']);
-  const type =
-    getValue(p, ['typeName', 'type', 'projectType']) ||
-    (p.projectType && (p.projectType.name || p.projectType.title)) ||
-    getValue(p, ['typeId']);
-  const stateVal = getValue(p, ['state', 'status', 'stateId']);
-  const info = stateInfo(stateVal);
+  const id = p.id || p.projectId || '';
+  const title = p.title || p.name || '';
+  const description = p.description || p.desc || '';
+  const amount = p.amount ?? p.estimatedAmount ?? '';
+  const duration = p.duration ?? p.estimatedDuration ?? '';
+  const area = (p.area && (p.area.name || p.area.title)) || p.areaName || '';
+  const type = (p.type && (p.type.name || p.type.title)) || p.typeName || '';
+  const stateVal = (p.status && (p.status.id || p.status.name)) || p.state || p.status || p.stateId || '';
+  const info = stateInfo(p.status?.id || p.state || p.status || p.stateId);
 
   const items =
-    `<li class="list-group-item"><strong>ID del proyecto:</strong> ${id}</li>` +
-    `<li class="list-group-item"><strong>Titulo:</strong> ${title}</li>` +
-    `<li class="list-group-item"><strong>Descripcion:</strong> ${description}</li>` +
-    `<li class="list-group-item"><strong>Monto:</strong> ${amount}</li>` +
-    `<li class="list-group-item"><strong>Duracion (en dias):</strong> ${duration}</li>` +
-    `<li class="list-group-item"><strong>Area:</strong> ${area}</li>` +
-    `<li class="list-group-item"><strong>Tipo:</strong> ${type}</li>` +
-    `<li class="list-group-item"><strong>Estado:</strong> <div class="alert alert-${info.class} mb-0 py-1">${info.text}</div></li>`;
+    `<li class="project-list-item"><span class='project-label'>ID del proyecto:</span> <span class='project-value'>${id}</span></li>` +
+    `<li class="project-list-item"><span class='project-label'>Título:</span> <span class='project-value'>${title}</span></li>` +
+    `<li class="project-list-item"><span class='project-label'>Descripción:</span> <span class='project-value'>${description}</span></li>` +
+    `<li class="project-list-item"><span class='project-label'>Monto:</span> <span class='project-value'>${amount}</span></li>` +
+    `<li class="project-list-item"><span class='project-label'>Duración (en días):</span> <span class='project-value'>${duration}</span></li>` +
+    `<li class="project-list-item"><span class='project-label'>Área:</span> <span class='project-value'>${area}</span></li>` +
+    `<li class="project-list-item"><span class='project-label'>Tipo:</span> <span class='project-value'>${type}</span></li>` +
+    `<li class="project-list-item"><span class='project-label'>Estado:</span> <span class='project-badge badge-${info.class}'>${info.text}</span></li>`;
 
   return (
-    '<div class="card project-card mb-3">' +
-    '<div class="card-header bg-info text-white project-card-header">' +
-    '<i class="bi bi-info-circle me-2"></i>Detalle del proyecto' +
-    '</div>' +
-    '<div class="card-body">' +
-    `<ul class="list-group list-group-flush mb-3">${items}</ul>` +
-    (typeof actionButtons === 'function' ? actionButtons(id) : '') +
-    '</div></div>'
+    '<div class="project-card-modern">' +
+      '<div class="project-card-header-modern">' +
+        '<i class="bi bi-info-circle me-2"></i>Detalle del proyecto' +
+      '</div>' +
+      '<ul class="project-list">' + items + '</ul>' +
+      (typeof actionButtons === 'function' ? '<div class="project-card-actions">' + actionButtons(id) + '</div>' : '') +
+    '</div>'
   );
 }
 

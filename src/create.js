@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     confirmBeforeSubmit: true, // ✅ aquí agregás la propiedad
     renderResult: (data, div) => {
       div.innerHTML =
-        '<div class="alert alert-success d-flex align-items-center">' +
+        '<div class="alert alert-success button-style d-flex align-items-center">' +
         '<i class="bi bi-check-circle-fill me-2"></i>' +
         'Proyecto creado correctamente' +
         '</div>';

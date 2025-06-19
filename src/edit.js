@@ -6,7 +6,7 @@ async function populateProjectDropdown() {
     if (resp.ok) {
       const projects = await resp.json();
       list.innerHTML = projects
-        .map(p => `<li><a class="dropdown-item" data-id="${p.id}" href="#">${p.id} - ${p.title || p.name}</a></li>`)
+        .map(p => `<li><a class="dropdown-item" data-id="${p.id}" data-title="${p.title || p.name || ''}" href="#"><span class='dropdown-title'>${p.title || p.name || p.id}</span><span class='dropdown-id'>${p.id}</span></a></li>`)
         .join('');
       list.querySelectorAll('a').forEach(a => {
         a.addEventListener('click', e => {
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  renderProjectDropdown({ inputId: 'id', dropdownId: 'projectDropdown' });
+  populateProjectDropdown();
 
   setupForm({
     formId: 'editForm',
@@ -50,10 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
     renderResult: async (data, div) => {
       const id = document.getElementById('id').value;
       div.innerHTML =
-        '<div class="alert alert-success d-flex align-items-center">' +
+        '<button type="button" class="btn w-100 btn-success d-flex align-items-center justify-content-center" style="margin-top: 1rem; cursor: default;" disabled>' +
         '<i class="bi bi-pencil-fill me-2"></i>' +
         'Proyecto actualizado' +
-        '</div>';
+        '</button>';
       try {
         const resp = await fetch(`${API_BASE_URL}/api/Project/${id}`);
         if (resp.ok) {
