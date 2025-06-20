@@ -47,7 +47,6 @@ async function populateSteps(proposalId) {
       const firstPending = steps.find(s => getStepStatus(s) !== 2);
       const rejected = steps.some(s => getStepStatus(s) === 3);
 
-      // Estado general
       let estado = 'Pendiente';
       if (rejected) {
         estado = 'Rechazado';
@@ -58,7 +57,6 @@ async function populateSteps(proposalId) {
       }
       if (statusLabel) statusLabel.textContent = `Estado: ${estado}`;
 
-      // Progreso por segmentos (restaurado)
       const total = steps.length;
       let progressHTML = '';
       steps.forEach((s, idx) => {
@@ -123,7 +121,6 @@ async function populateSteps(proposalId) {
       select.innerHTML = '<option value="">Seleccione...</option>' + options;
       select.disabled = rejected;
     }
-    // Si no hay pasos, limpiar barra y estado
     else {
       if (statusLabel) statusLabel.textContent = 'Estado: -';
       if (progressBar) {
@@ -151,12 +148,10 @@ async function populateProposalDropdown() {
           const id = a.getAttribute('data-id');
           const input = document.getElementById('proposalId');
           if (input) input.value = id;
-          // Mostrar caja de proyecto seleccionado
           const box = document.getElementById('selectedProjectBox');
           const titleSpan = document.getElementById('selectedProjectTitle');
           const descSpan = document.getElementById('selectedProjectDesc');
           if (box && titleSpan && descSpan) {
-            // Obtener datos del proyecto
             try {
               const resp = await fetch(`${API_BASE_URL}/api/Project/${id}`);
               if (resp.ok) {
@@ -176,7 +171,6 @@ async function populateProposalDropdown() {
         });
       });
 
-      // Limpiar caja de proyecto seleccionado al limpiar el formulario
       const clearBtn = document.getElementById('clearBtn');
       if (clearBtn) {
         clearBtn.addEventListener('click', () => {
@@ -215,12 +209,10 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (result) result.innerHTML = '';
       const stepSelect = document.getElementById('id');
       if (stepSelect) stepSelect.innerHTML = '<option value="">Seleccione...</option>';
-      // Limpiar barra de progreso y estado
       const statusLabel = document.getElementById('projectStatusLabel');
       const progressBar = document.getElementById('projectProgressBar');
       if (statusLabel) statusLabel.textContent = 'Estado: -';
       if (progressBar) progressBar.innerHTML = '';
-      // Quitar foco del botón para evitar que quede presionado
       clearBtn.blur();
     });
   }
@@ -254,17 +246,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         message = 'Se tomó la decisión: ' + decision;
       }
       
-      // Reemplazo el alert por un botón estilizado
       let btnClass = 'btn-success';
       if (alertClass === 'danger') btnClass = 'btn-danger';
       if (alertClass === 'warning') btnClass = 'btn-warning';
       if (alertClass === 'info') btnClass = 'btn-info';
-      div.innerHTML = ''; // Eliminar cualquier contenido previo
+      div.innerHTML = '';
 
-      // Actualizar inmediatamente la barra de progreso y el estado
       const proposalId = document.getElementById('proposalId')?.value;
       if (proposalId) {
-        // Esperar un momento para que la API se actualice
         await new Promise(resolve => setTimeout(resolve, 250));
         await populateSteps(proposalId);
       }

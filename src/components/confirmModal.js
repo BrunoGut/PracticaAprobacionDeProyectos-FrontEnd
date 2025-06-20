@@ -1,7 +1,4 @@
-// Componente reutilizable para mostrar un modal de confirmación
-// Uso: showConfirmModal({ title, message, onConfirm })
 function showConfirmModal({ title, message, onConfirm, buttonStyle }) {
-  // Eliminar cualquier modal anterior
   const old = document.getElementById('confirmModal');
   if (old) old.remove();
   const modalDiv = document.createElement('div');

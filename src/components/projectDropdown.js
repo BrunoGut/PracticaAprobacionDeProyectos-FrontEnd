@@ -1,6 +1,3 @@
-// Componente reutilizable para seleccionar proyectos con dropdown
-// Uso: createProjectDropdown(container, { projects, onSelect, placeholder, initialValue })
-
 export function createProjectDropdown(container, {
   projects = [],
   onSelect = () => {},
@@ -40,10 +37,6 @@ export function createProjectDropdown(container, {
 
   renderMenu(projects);
 
-  // Si quieres filtrar por texto, puedes agregar aquí lógica de búsqueda
-  // input.addEventListener('input', ...)
-
-  // Permite actualizar los proyectos dinámicamente
   return {
     setProjects(newProjects) {
       renderMenu(newProjects);

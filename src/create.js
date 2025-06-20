@@ -1,4 +1,3 @@
-// Setup create form and populate dropdowns
 async function populateSelect(id, endpoint) {
   const select = document.getElementById(id);
   if (!select) return;
@@ -35,20 +34,19 @@ document.addEventListener('DOMContentLoaded', () => {
       const result = document.getElementById('result');
       if (result) result.innerHTML = '';
 
-      clearBtn.blur(); // Evita que quede resaltado
+      clearBtn.blur();
     });
   }
 
-  // 🔽 Asegura que ningún botón quede "clickeado" tras volver o recargar
   setTimeout(() => document.activeElement?.blur(), 0);
 
   setupForm({
     formId: 'createForm',
     endpoint: `${API_BASE_URL}/api/Project`,
     method: 'POST',
-    confirmBeforeSubmit: true, // Confirmación antes de enviar
+    confirmBeforeSubmit: true,
     renderResult: (data, div) => {
-      const projectId = data.id; // Obtenemos el ID del proyecto creado
+      const projectId = data.id; 
       div.innerHTML =
         '<a href="view.html?id=' + encodeURIComponent(projectId) + '" ' +
         'class="btn btn-primary w-100 d-flex align-items-center justify-content-center" ' +

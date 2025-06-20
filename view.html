@@ -15,7 +15,6 @@
 <body class="body">
   <nav class="navbar navbar-dark" id="mainNav"></nav>
   <main class="container py-4">
-    <!-- Contenedor principal dividido en 2 columnas -->
     <div class="form-minimal-container">
       <div class="form-side-minimal">
         <div class="side-line"></div>
@@ -23,11 +22,11 @@
         <p class="side-desc-minimal">Ingresá el ID de un proyecto para ver toda su información detallada.</p>
       </div>
       <div class="form-main-minimal">
-        <form id="viewForm" class="form mb-4">
+        <form id="viewForm" class="form">
           <div class="mb-3">
             <label for="projectId" class="form-label">ID del proyecto</label>
             <div class="input-group">
-              <input type="text" class="form-control" id="projectId" name="projectId" placeholder="ID del proyecto" required />
+              <input type="text" class="form-control" id="projectId" name="projectId" placeholder="ID del proyecto" />
               <button class="btn btn-outline-secondary dropdown-toggle btn-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="bi bi-list"></i>
               </button>
@@ -42,12 +41,8 @@
             <button type="button" id="clearBtn" class="btn btn-limpiar">Limpiar</button>
           </div>
         </form>
+        <div id="projectInfo" class="mt-4"></div>
       </div>
-    </div>
-
-    <!-- Caja de información centrada -->
-    <div class="project-center-container">
-      <div id="projectInfo" class="project-card-container"></div>
     </div>
   </main>
   <footer class="footer">

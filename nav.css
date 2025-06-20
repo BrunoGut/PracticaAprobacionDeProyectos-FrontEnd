@@ -1,32 +1,37 @@
 #mainNav {
   background-color: var(--border-color) !important;
 }
+
 #mainNav .navbar-brand,
 #mainNav .nav-link {
   color: #fff;
 }
+
 #mainNav .logo {
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+  max-height: 48px;
+  max-width: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 48px;
-  width: 128px;
-  padding: 0;
+  padding: 0.3rem;
   overflow: hidden;
+  border-radius: 12px; 
+  background-color: #fff; 
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
+
 #mainNav .logo img {
-  height: 100%;
-  width: 100%;
+  max-height: 100%;
+  max-width: 100%;
   object-fit: contain;
   display: block;
 }
+
 nav.navbar .nav-link {
   position: relative;
   transition: color 0.3s;
 }
+
 nav.navbar .nav-link::after {
   content: '';
   position: absolute;
@@ -37,9 +42,11 @@ nav.navbar .nav-link::after {
   background-color: #fff;
   transition: width 0.3s;
 }
+
 nav.navbar .nav-link:hover {
   color: #fffbcc;
 }
+
 nav.navbar .nav-link:hover::after {
   width: 100%;
 }

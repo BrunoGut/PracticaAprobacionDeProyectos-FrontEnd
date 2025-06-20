@@ -1,4 +1,3 @@
-/* Formulario */
 .form-group {
   margin-bottom: 1rem;
   display: flex;
@@ -13,10 +12,6 @@
   border: 1px solid var(--border-color);
   border-radius: 4px;
 }
-
-/* Botón - Bootstrap aplica la apariencia principal */
-
-/* Resultados */
 .result {
   margin-top: 1rem;
   white-space: pre-wrap;
@@ -40,8 +35,6 @@
   flex: 1;
   min-width: 120px;
 }
-
-/* Botón principal 'Ejecutar' */
 .btn-success.w-100, .btn-volver, .btn-limpiar {
   height: 48px;
   border-radius: 24px !important;
@@ -192,14 +185,14 @@
 
 .form-minimal-container {
   display: flex;
-  justify-content: space-between;
-  gap: 2rem;
+  justify-content: center;
+  gap: 5rem;
   margin: 2rem auto;
   max-width: 1200px;
   align-items: flex-start;
 }
 .form-side-minimal {
-  flex: 1;
+  flex: 0 1 420px;
   text-align: left;
 }
 .form-main-minimal {
@@ -261,6 +254,22 @@
 .form-main-minimal select:focus {
   border-bottom: 2.5px solid #E52514;
 }
+.form-main-minimal .input-group .input-group-text {
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #8F8F9F;
+  border-radius: 0;
+  color: #222;
+  font-size: 1.08em;
+  padding: 0.5em 0.2em;
+  transition: border-color 0.2s;
+}
+.form-main-minimal .input-group .form-control {
+  border-left: none;
+}
+.form-main-minimal .input-group:focus-within .input-group-text {
+  border-bottom-color: #E52514;
+}
 .form-main-minimal .btn-success.w-100 {
   background: #219150;
   border-radius: 24px;
@@ -291,8 +300,6 @@
   .form-main-minimal {
     max-width: 98vw;
   }
-}
-
 }
 
 .alert-success.button-style {

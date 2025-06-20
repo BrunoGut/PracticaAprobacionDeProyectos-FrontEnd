@@ -58,7 +58,7 @@ function setupForm(config) {
       message,
       onConfirm: () => {
         form._confirmed = true;
-        form.requestSubmit(); // vuelve a disparar el evento
+        form.requestSubmit();
       },
       buttonStyle: 'border-radius: 24px;'
     });

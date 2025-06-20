@@ -41,14 +41,14 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.getElementById('searchForm').reset();
       const result = document.getElementById('result');
       if (result) result.innerHTML = '';
+      const projectResults = document.getElementById('projectResultsContainer');
+      if (projectResults) projectResults.innerHTML = '';
     });
   }
 
-  // Check if there's an ID in the URL parameters
   const params = new URLSearchParams(window.location.search);
   const projectId = params.get('id');
   if (projectId) {
-    // If there's an ID, set it in the form and submit it
     const idInput = document.getElementById('id');
     if (idInput) {
       idInput.value = projectId;
@@ -65,10 +65,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     method: 'GET',
     renderResult: async (data, div) => {
       const projects = Array.isArray(data) ? data : [data];
-      
-      // Obtener detalles completos de cada proyecto
+
       const projectsWithDetails = await Promise.all(
-        projects.map(async (p) => {
+        projects.map(async p => {
           try {
             const resp = await fetch(`${API_BASE_URL}/api/Project/${p.id}`);
             if (resp.ok) {
@@ -81,12 +80,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         })
       );
 
+      const resultsContainer = document.getElementById('projectResultsContainer');
+      if (resultsContainer) resultsContainer.innerHTML = '';
+      if (div) div.innerHTML = '';
+
+      if (projectsWithDetails.length === 0) {
+        if (div) {
+          div.innerHTML =
+            '<div class="alert alert-secondary d-flex align-items-center mt-3">' +
+            '<i class="bi bi-info-circle-fill me-2"></i>' +
+            'No se encontraron proyectos' +
+            '</div>';
+        }
+        return;
+      }
+
       const PROJECTS_PER_PAGE = 4;
       let currentPage = 1;
       const totalPages = Math.ceil(projectsWithDetails.length / PROJECTS_PER_PAGE);
-      // Usar el contenedor dedicado para los resultados
-      const resultsContainer = document.getElementById('projectResultsContainer');
-      if (resultsContainer) resultsContainer.innerHTML = '';
 
       function actionButtons(id) {
         if (!id) return '';
@@ -103,32 +114,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         const end = start + PROJECTS_PER_PAGE;
         const pageProjects = projectsWithDetails.slice(start, end);
         if (resultsContainer) resultsContainer.innerHTML = '';
-        if (pageProjects.length === 0) {
-          if (resultsContainer) {
-            resultsContainer.innerHTML =
-              '<div class="alert alert-info d-flex align-items-center">' +
-              '<i class="bi bi-info-circle-fill me-2"></i>' +
-              'No se encontraron proyectos' +
-              '</div>';
-          }
-          return;
-        }
-        // Render grid
+
         const grid = document.createElement('div');
         grid.className = 'project-results-grid';
-        grid.innerHTML = pageProjects
-          .map(p => renderProjectCard(p, actionButtons))
-          .join('');
+        grid.innerHTML = pageProjects.map(p => renderProjectCard(p, actionButtons)).join('');
         if (resultsContainer) resultsContainer.appendChild(grid);
-        // Render paginación
         if (totalPages > 1) {
           const pag = document.createElement('div');
           pag.className = 'pagination';
           pag.innerHTML =
             `<button class='pagination-btn' ${currentPage === 1 ? 'disabled' : ''} data-page='prev'>&lt;</button>` +
-            Array.from({ length: totalPages }, (_, i) =>
-              `<button class='pagination-btn${i + 1 === currentPage ? ' active' : ''}' data-page='${i + 1}'>${i + 1}</button>`
-            ).join('') +
+            Array.from({ length: totalPages }, (_, i) => `<button class='pagination-btn${i + 1 === currentPage ? ' active' : ''}' data-page='${i + 1}'>${i + 1}</button>`).join('') +
             `<button class='pagination-btn' ${currentPage === totalPages ? 'disabled' : ''} data-page='next'>&gt;</button>`;
           if (resultsContainer) resultsContainer.appendChild(pag);
           pag.querySelectorAll('.pagination-btn').forEach(btn => {

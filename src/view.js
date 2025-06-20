@@ -5,16 +5,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('projectId');
   const clearBtn = document.getElementById('clearBtn');
 
-  // Verificar si hay un ID en la URL y cargarlo automáticamente
   const params = new URLSearchParams(window.location.search);
   const projectId = params.get('id');
   if (projectId && input) {
     input.value = projectId;
-    // Disparar el evento submit del formulario
     form.dispatchEvent(new Event('submit'));
   }
 
-  // Poblar el dropdown de proyectos (igual que en aprobar/buscar)
   async function populateProjectDropdown() {
     if (!dropdown) return;
     try {
@@ -34,7 +31,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
     } catch (err) {
-      // No mostrar error
     }
   }
   populateProjectDropdown();
@@ -56,7 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const resp = await fetch(`${API_BASE_URL}/api/Project/${id}`);
       if (!resp.ok) throw new Error('No encontrado');
       const p = await resp.json();
-      // Render tipo cards modernas con todos los campos requeridos
       let html = `
         <div class="project-detail-modern">
           <div class="row g-3">
@@ -158,7 +153,11 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
       infoDiv.innerHTML = html;
     } catch {
-      infoDiv.innerHTML = '<div class="alert alert-danger">No se encontró el proyecto con ese ID.</div>';
+      infoDiv.innerHTML =
+        '<div class="alert alert-warning d-flex align-items-center mt-3">' +
+        '<i class="bi bi-exclamation-triangle-fill me-2"></i>' +
+        'No se encontró el proyecto con ese ID.' +
+        '</div>';
     }
   });
 }); 

@@ -47,7 +47,7 @@
 }
 .project-badge {
   display: inline-block;
-  padding: 0.18em 1.1em;
+  padding: 0.4em 0.8em;
   border-radius: 16px;
   font-size: 0.98em;
   font-weight: bold;
@@ -129,13 +129,14 @@
 
 .project-results-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 2.2rem 2.2rem;
-  justify-content: center;
-  align-items: start;
-  margin: 2.5rem auto 1.5rem auto;
-  max-width: 1200px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
 }
+
 @media (max-width: 900px) {
   .project-results-grid {
     grid-template-columns: 1fr;
@@ -345,7 +346,6 @@
   color: #fff;
 }
 
-/* Centrado horizontal de la caja de detalles en la vista de proyecto */
 .view-page-content, .form-main-minimal {
   display: flex;
   flex-direction: column;
@@ -371,7 +371,6 @@
   margin-top: 2rem;
 }
 
-/* Botones de acción extra pequeños para la tabla de pasos de aprobación (ajustados +1px) */
 .btn-action-xs {
   padding: 0.18em 0.7em !important;
   font-size: 0.97em !important;
@@ -384,13 +383,11 @@
   min-width: 32px;
 }
 
-/* Corrige el color y centrado del botón de observar */
 .btn-action-xs.btn-warning {
   color: #fff !important;
   text-align: center;
 }
 
-/* Centrar y alinear horizontalmente los botones en la celda de acciones */
 .project-detail-table td:last-child {
   text-align: center;
   vertical-align: middle;
@@ -407,7 +404,6 @@
   margin: 0;
 }
 
-/* Hacer la tabla responsive y con scroll horizontal si es necesario */
 .table-responsive {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -420,7 +416,6 @@
   padding: 0.75rem;
 }
 
-/* Estilos para el campo de monto con signo $ */
 .form-main-minimal .input-group-text {
   background: transparent;
   border: none;
