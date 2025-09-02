@@ -1,1 +1,1 @@
-const API_BASE_URL = 'https://localhost:7062';
+const API_BASE_URL = 'https://projectar.onrender.com';
