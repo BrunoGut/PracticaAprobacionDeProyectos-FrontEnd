@@ -1,0 +1,76 @@
+.project-detail-table .btn-action-group {
+  display: inline-flex;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #dee2e6;
+}
+
+.project-detail-table .btn-action-xs {
+  font-size: 0.85em;
+  padding: 0.5em 0.7em;
+  border-radius: 0 !important;
+  transition: all 0.2s ease;
+  border: none !important;
+  margin: 0;
+  position: relative;
+}
+
+.project-detail-table .btn-action-group .btn-action-xs:first-child {
+  border-radius: 6px 0 0 6px !important;
+}
+
+.project-detail-table .btn-action-group .btn-action-xs:last-child {
+  border-radius: 0 6px 6px 0 !important;
+}
+
+.project-detail-table .btn-action-group .btn-action-xs:not(:last-child) {
+  margin-right: 3px;
+}
+
+.project-detail-table .btn-action-group .btn-action-xs:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -1px;
+  top: 20%;
+  bottom: 20%;
+  width: 1px;
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.project-detail-table .btn-action-xs:hover:not(:disabled) {
+  transform: none;
+  filter: brightness(1.1);
+  z-index: 1;
+}
+
+.project-detail-table .btn-action-xs:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  filter: grayscale(100%);
+}
+
+.project-detail-table .btn-action-xs.btn-success {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.project-detail-table .btn-action-xs.btn-danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.project-detail-table .btn-action-xs.btn-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.project-detail-table .btn-action-xs.btn-secondary {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.project-detail-table .btn-action-group.disabled {
+  opacity: 0.5;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}

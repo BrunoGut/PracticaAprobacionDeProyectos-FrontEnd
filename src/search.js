@@ -25,6 +25,9 @@ const STATE_OPTIONS = [
   { id: 4, name: 'Observado' }
 ];
 document.addEventListener('DOMContentLoaded', async () => {
+  // Inicializar funcionalidad del botón de filtro
+  initFilterToggle();
+  
   await populateSelect('state', '/api/ProjectState');
   const stateSelect = document.getElementById('state');
   if (stateSelect && stateSelect.options.length <= 1) {
@@ -43,6 +46,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (result) result.innerHTML = '';
       const projectResults = document.getElementById('projectResultsContainer');
       if (projectResults) projectResults.innerHTML = '';
+      // Recargar todos los proyectos después de limpiar
+      loadAllProjects();
     });
   }
 
@@ -55,6 +60,102 @@ document.addEventListener('DOMContentLoaded', async () => {
       const searchForm = document.getElementById('searchForm');
       if (searchForm) {
         searchForm.dispatchEvent(new Event('submit'));
+      }
+    }
+  }
+
+  // Cargar todos los proyectos al inicio
+  loadAllProjects();
+
+  // Función para cargar todos los proyectos automáticamente
+  async function loadAllProjects() {
+    try {
+      const resp = await fetch(`${API_BASE_URL}/api/Project`);
+      if (resp.ok) {
+        const data = await resp.json();
+        const projects = Array.isArray(data) ? data : [data];
+
+        const projectsWithDetails = await Promise.all(
+          projects.map(async p => {
+            try {
+              const resp = await fetch(`${API_BASE_URL}/api/Project/${p.id}`);
+              if (resp.ok) {
+                return await resp.json();
+              }
+            } catch (err) {
+              console.error('Error fetching project details:', err);
+            }
+            return p;
+          })
+        );
+
+        const resultsContainer = document.getElementById('projectResultsContainer');
+        if (resultsContainer) resultsContainer.innerHTML = '';
+
+        if (projectsWithDetails.length === 0) {
+          const result = document.getElementById('result');
+          if (result) {
+            result.innerHTML =
+              '<div class="alert alert-secondary d-flex align-items-center mt-3">' +
+              '<i class="bi bi-info-circle-fill me-2"></i>' +
+              'No hay proyectos disponibles' +
+              '</div>';
+          }
+          return;
+        }
+
+        const PROJECTS_PER_PAGE = 8;
+        let currentPage = 1;
+        const totalPages = Math.ceil(projectsWithDetails.length / PROJECTS_PER_PAGE);
+
+        function actionButtons(id) {
+          if (!id) return '';
+          return (
+            '<div class="d-flex justify-content-end mt-2">' +
+            `<a href="view.html?id=${encodeURIComponent(id)}" class="btn btn-primary"><i class="bi bi-eye me-2"></i>Ver Proyecto</a>` +
+            '</div>'
+          );
+        }
+
+        function renderPage(page) {
+          currentPage = page;
+          const start = (page - 1) * PROJECTS_PER_PAGE;
+          const end = start + PROJECTS_PER_PAGE;
+          const pageProjects = projectsWithDetails.slice(start, end);
+          if (resultsContainer) resultsContainer.innerHTML = '';
+
+          const grid = document.createElement('div');
+          grid.className = 'project-results-grid';
+          grid.innerHTML = pageProjects.map(p => renderProjectCard(p, actionButtons)).join('');
+          if (resultsContainer) resultsContainer.appendChild(grid);
+          if (totalPages > 1) {
+            const pag = document.createElement('div');
+            pag.className = 'pagination';
+            pag.innerHTML =
+              `<button class='pagination-btn' ${currentPage === 1 ? 'disabled' : ''} data-page='prev'>&lt;</button>` +
+              Array.from({ length: totalPages }, (_, i) => `<button class='pagination-btn${i + 1 === currentPage ? ' active' : ''}' data-page='${i + 1}'>${i + 1}</button>`).join('') +
+              `<button class='pagination-btn' ${currentPage === totalPages ? 'disabled' : ''} data-page='next'>&gt;</button>`;
+            if (resultsContainer) resultsContainer.appendChild(pag);
+            pag.querySelectorAll('.pagination-btn').forEach(btn => {
+              btn.onclick = () => {
+                if (btn.dataset.page === 'prev' && currentPage > 1) renderPage(currentPage - 1);
+                else if (btn.dataset.page === 'next' && currentPage < totalPages) renderPage(currentPage + 1);
+                else if (!isNaN(Number(btn.dataset.page))) renderPage(Number(btn.dataset.page));
+              };
+            });
+          }
+        }
+        renderPage(1);
+      }
+    } catch (err) {
+      console.error('Error cargando proyectos:', err);
+      const result = document.getElementById('result');
+      if (result) {
+        result.innerHTML =
+          '<div class="alert alert-danger d-flex align-items-center mt-3">' +
+          '<i class="bi bi-exclamation-triangle-fill me-2"></i>' +
+          'Error al cargar los proyectos' +
+          '</div>';
       }
     }
   }
@@ -95,7 +196,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-      const PROJECTS_PER_PAGE = 4;
+      const PROJECTS_PER_PAGE = 8;
       let currentPage = 1;
       const totalPages = Math.ceil(projectsWithDetails.length / PROJECTS_PER_PAGE);
 
@@ -103,7 +204,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!id) return '';
         return (
           '<div class="d-flex justify-content-end mt-2">' +
-          `<a href="view.html?id=${encodeURIComponent(id)}" class="btn btn-primary"><i class="bi bi-eye"></i> Ver Proyecto</a>` +
+          `<a href="view.html?id=${encodeURIComponent(id)}" class="btn btn-primary"><i class="bi bi-eye me-2"></i>Ver Proyecto</a>` +
           '</div>'
         );
       }
@@ -140,3 +241,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 });
+
+// Función para inicializar el toggle del filtro
+function initFilterToggle() {
+  const filterToggleBtn = document.getElementById('filterToggleBtn');
+  const filterBar = document.getElementById('filterBar');
+  
+  if (filterToggleBtn && filterBar) {
+    filterToggleBtn.addEventListener('click', () => {
+      const isActive = filterBar.classList.contains('active');
+      
+      if (isActive) {
+        filterBar.classList.remove('active');
+        filterToggleBtn.classList.remove('active');
+      } else {
+        filterBar.classList.add('active');
+        filterToggleBtn.classList.add('active');
+      }
+    });
+  }
+}

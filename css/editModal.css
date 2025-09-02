@@ -1,0 +1,256 @@
+/* Modal de edición de proyecto - Estilo consistente con modal de confirmación */
+.edit-modal {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.edit-modal .modal-dialog {
+  max-width: 600px;
+}
+
+.edit-modal .modal-content {
+  border: none;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.edit-modal .modal-header {
+  background: linear-gradient(135deg, #ff6b35, #ff8c42);
+  color: white;
+  border: none;
+  padding: 1.5rem 2rem 1rem 2rem;
+  position: relative;
+}
+
+.edit-modal .modal-title {
+  font-weight: bold;
+  font-size: 1.3rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.edit-modal .modal-title i {
+  margin-right: 0.75rem;
+  font-size: 1.5rem;
+}
+
+.edit-modal .btn-close {
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+  transition: all 0.2s ease;
+}
+
+.edit-modal .btn-close:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+.edit-modal .modal-body {
+  padding: 2rem;
+}
+
+.edit-modal .form-group {
+  margin-bottom: 1.5rem;
+}
+
+.edit-modal .form-label {
+  font-weight: 600;
+  color: #495057;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.edit-modal .field-icon {
+  color: #ff6b35;
+  font-size: 1.1rem;
+}
+
+.edit-modal .input-group {
+  position: relative;
+}
+
+.edit-modal .form-control {
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.edit-modal .form-control:focus {
+  border-color: #ff6b35;
+  box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+}
+
+.edit-modal .form-control:disabled {
+  background-color: #f8f9fa;
+  color: #6c757d;
+  border-color: #e9ecef;
+}
+
+.edit-modal .edit-toggle-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #ff6b35;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.edit-modal .edit-toggle-btn:hover {
+  background-color: rgba(255, 107, 53, 0.1);
+  color: #e55a2b;
+}
+
+.edit-modal .edit-toggle-btn.editing {
+  color: #28a745;
+}
+
+.edit-modal .edit-toggle-btn.editing:hover {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #1e7e34;
+}
+
+.edit-modal .modal-footer {
+  padding: 1rem 2rem 2rem 2rem;
+  border: none;
+  display: flex;
+  gap: 1rem;
+}
+
+/* Estilos de botones del modal de edición - Igual que confirmModal */
+.edit-modal .btn {
+  height: 48px;
+  border-radius: 24px !important;
+  font-size: 1.08em;
+  font-weight: bold;
+  padding: 0 2.2em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border: none;
+  min-width: 140px;
+  flex: 1;
+}
+
+.edit-modal .btn-edit-confirm {
+  background: #219150;
+  color: #fff;
+}
+
+.edit-modal .btn-edit-confirm:hover,
+.edit-modal .btn-edit-confirm:focus {
+  background: #176b3a !important;
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.edit-modal .btn-edit-cancel {
+  background: #8F8F9F;
+  color: #fff;
+}
+
+.edit-modal .btn-edit-cancel:hover,
+.edit-modal .btn-edit-cancel:focus {
+  background: #E52514 !important;
+  border-color: #E52514 !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.edit-modal .btn i {
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.btn-edit-project {
+  background: linear-gradient(135deg, #ff6b35, #ff8c42);
+  border: none;
+  color: white;
+  font-weight: bold;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.btn-edit-project:hover {
+  background: linear-gradient(135deg, #e55a2b, #e67632);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+  color: white;
+}
+
+.btn-edit-project:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25);
+  color: white;
+}
+
+/* Animaciones */
+.edit-modal.fade .modal-dialog {
+  transition: transform 0.3s ease-out;
+  transform: scale(0.9);
+}
+
+.edit-modal.fade.show .modal-dialog {
+  transform: scale(1);
+}
+
+/* Estado de carga */
+.edit-modal .loading-state {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.edit-modal .spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Textarea para descripción */
+.edit-modal textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .edit-modal .modal-dialog {
+    margin: 1rem;
+  }
+  
+  .edit-modal .modal-body {
+    padding: 1.5rem;
+  }
+  
+  .edit-modal .modal-footer {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .edit-modal .modal-footer .btn {
+    width: 100%;
+    flex: none;
+  }
+}

@@ -8,6 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/userSelector.css" />
 </head>
 <body class="body">
   <nav class="navbar navbar-dark" id="mainNav"></nav>
@@ -26,27 +27,38 @@
       </div>
     </div>
 
+    <!-- Sección de llamada a la acción principal -->
+    <div class="row justify-content-center mb-4">
+      <div class="col-12 text-center">
+        <h3 class="fw-bold mb-4">¡Comencemos, creá tu proyecto!</h3>
+      </div>
+    </div>
+
     <div class="row text-center mb-5" id="accesos">
-      <div class="col-md-6 mb-3">
-        <a href="create.html" class="option-card d-block h-100">
-          <i class="bi bi-plus-circle display-6 mb-2"></i>
-          <span>Crear</span>
+      <!-- Botón principal de Crear - Ocupa toda la fila -->
+      <div class="col-12 mb-4">
+        <a href="create.html" class="option-card option-card-primary d-block h-100">
+          <i class="bi bi-plus-circle display-4 mb-3"></i>
+          <h4 class="mb-0">Crear Proyecto</h4>
+          <p class="mb-0 mt-2 opacity-75">Da el primer paso hacia la gestión eficiente</p>
         </a>
       </div>
-      <div class="col-md-6 mb-3">
-        <a href="edit.html" class="option-card d-block h-100">
-          <i class="bi bi-pencil-square display-6 mb-2"></i>
-          <span>Editar</span>
+      
+      <!-- Botones secundarios - En una fila de 3 columnas -->
+      <div class="col-md-4 mb-3">
+        <a href="view.html" class="option-card option-card-secondary d-block h-100">
+          <i class="bi bi-eye display-6 mb-2"></i>
+          <span>Ver</span>
         </a>
       </div>
-      <div class="col-md-6 mb-3">
-        <a href="approve.html" class="option-card d-block h-100">
+      <div class="col-md-4 mb-3">
+        <a href="approve.html" class="option-card option-card-secondary d-block h-100">
           <i class="bi bi-check-circle display-6 mb-2"></i>
           <span>Aprobar</span>
         </a>
       </div>
-      <div class="col-md-6 mb-3">
-        <a href="search.html" class="option-card d-block h-100">
+      <div class="col-md-4 mb-3">
+        <a href="search.html" class="option-card option-card-secondary d-block h-100">
           <i class="bi bi-search display-6 mb-2"></i>
           <span>Buscar</span>
         </a>
@@ -86,6 +98,8 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="src/config.js"></script>
+  <script src="src/components/userSelector.js"></script>
   <script src="src/nav.js"></script>
 </body>
 </html>

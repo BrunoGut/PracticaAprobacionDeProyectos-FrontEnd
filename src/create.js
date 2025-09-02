@@ -20,10 +20,49 @@ async function populateSelect(id, endpoint) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  populateSelect('areaId', '/api/Area');
-  populateSelect('user', '/api/User');
-  populateSelect('typeId', '/api/ProjectType');
+function updateUserDisplay() {
+  const currentUser = getCurrentUser();
+  const userField = document.getElementById('User');
+  const userDisplayField = document.getElementById('userDisplay');
+  
+  if (userDisplayField) {
+    if (currentUser) {
+      userDisplayField.innerHTML = `
+        <div class="selected-user-info">
+          <i class="bi bi-person-check me-2"></i>
+          <span class="fw-semibold">${currentUser.name}</span>
+          <small class="text-muted ms-2">(${currentUser.role})</small>
+        </div>
+      `;
+    } else {
+      userDisplayField.innerHTML = `
+        <div class="selected-user-info">
+          <i class="bi bi-person me-2"></i>
+          <span class="fw-semibold text-muted">Cargando usuario...</span>
+        </div>
+      `;
+    }
+  }
+  
+  // Establecer el valor del usuario en el campo oculto si existe
+  if (userField && currentUser) {
+    userField.value = currentUser.id;
+  }
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+  populateSelect('Area', '/api/Area');
+  populateSelect('Type', '/api/ProjectType');
+
+  // Esperar a que el selector de usuario se inicialice completamente
+  // Esto asegura que el usuario esté cargado antes de actualizar la pantalla
+  if (typeof initializeUserSelector === 'function') {
+    await initializeUserSelector();
+  }
+  
+  // Actualizar la visualización del usuario cuando cambie
+  updateUserDisplay();
+  document.addEventListener('userChanged', updateUserDisplay);
 
   const clearBtn = document.getElementById('clearBtn');
   if (clearBtn) {
@@ -33,6 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const result = document.getElementById('result');
       if (result) result.innerHTML = '';
+
+      // Mantener el usuario seleccionado después de limpiar
+      updateUserDisplay();
 
       clearBtn.blur();
     });
@@ -45,15 +87,19 @@ document.addEventListener('DOMContentLoaded', () => {
     endpoint: `${API_BASE_URL}/api/Project`,
     method: 'POST',
     confirmBeforeSubmit: true,
+    beforeSubmit: (payload) => {
+      // Asegurar que el usuario esté establecido
+      const currentUser = getCurrentUser();
+      if (!currentUser || !currentUser.id) {
+        throw new Error('No se ha seleccionado un usuario válido. Por favor, selecciona un usuario en la barra de navegación.');
+      }
+      payload.User = currentUser.id;
+      return payload;
+    },
     renderResult: (data, div) => {
       const projectId = data.id; 
-      div.innerHTML =
-        '<a href="view.html?id=' + encodeURIComponent(projectId) + '" ' +
-        'class="btn btn-primary w-100 d-flex align-items-center justify-content-center" ' +
-        'style="border-radius: 24px; height: 48px; margin-top: 1rem;">' +
-        '<i class="bi bi-eye me-2"></i>' +
-        'Ver Proyecto' +
-        '</a>';
+      // Redirigir automáticamente a la pantalla de ver proyecto
+      window.location.href = 'view.html?id=' + encodeURIComponent(projectId);
     }
   });
 });

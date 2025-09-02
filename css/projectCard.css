@@ -1,57 +1,119 @@
 .project-card-modern {
-  max-width: 1100px;
-  min-width: 0;
+  max-width: 320px;
+  min-width: 280px;
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  padding: 0 0 0.5rem 0;
+  padding: 0 0 0.3rem 0;
+  background: linear-gradient(135deg, #fff 0%, #fafafa 100%);
+  border-radius: 20px;
+  box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+  border: 1px solid rgba(229, 37, 20, 0.08);
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  position: relative;
+  overflow: hidden;
 }
+.project-card-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #e52514 0%, #ff6b35 50%, #e52514 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.project-card-modern:hover::before {
+  opacity: 1;
+}
+
 .project-card-header-modern {
-  background: #fff;
-  color: #222;
+  background: linear-gradient(135deg, #8F8F9F 0%, #7a7a87 100%);
+  color: #fff;
   font-weight: bold;
-  font-size: 1.13em;
-  border-radius: 24px 24px 0 0;
-  padding: 1.1rem 1.5rem 0.7rem 1.5rem;
+  font-size: 1.05em;
+  border-radius: 20px 20px 0 0;
+  padding: 0.8rem 1.2rem 0.5rem 1.2rem;
   border-bottom: 1.5px solid #e9ecef;
   display: flex;
   align-items: center;
-  gap: 0.5em;
+  gap: 0.4em;
+  position: relative;
 }
+.project-card-header-modern .bi-info-circle {
+  color: #fff;
+  filter: drop-shadow(0 1px 2px rgba(255, 255, 255, 0.3));
+}
+
 .project-list {
   list-style: none;
-  padding: 0 1.5rem;
+  padding: 0 1.2rem;
   margin: 0;
+  flex: 1;
 }
 .project-list-item {
   display: flex;
   align-items: flex-start;
-  gap: 0.5em;
-  padding: 0.45em 0;
-  border-bottom: 1px solid #f2f2f2;
-  font-size: 1.01em;
+  gap: 0.4em;
+  padding: 0.35em 0;
+  border-bottom: 1px solid rgba(242, 242, 242, 0.8);
+  font-size: 0.95em;
+  line-height: 1.3;
+  transition: background-color 0.2s ease;
+}
+
+.project-list-item:hover {
+  background-color: rgba(229, 37, 20, 0.02);
+  border-radius: 8px;
+  margin: 0 -0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
 }
 .project-list-item:last-child {
   border-bottom: none;
 }
 .project-label {
   font-weight: 600;
-  color: #222;
-  min-width: 120px;
+  color: #333;
+  min-width: 100px;
   display: inline-block;
+  font-size: 0.92em;
+  transition: color 0.2s ease;
 }
+
+.project-list-item:hover .project-label {
+  color: #e52514;
+}
+
 .project-value {
-  color: #444;
+  color: #555;
   font-weight: 400;
-  word-break: break-all;
+  word-break: break-word;
+  font-size: 0.92em;
+  transition: color 0.2s ease;
+}
+
+.project-list-item:hover .project-value {
+  color: #333;
 }
 .project-badge {
   display: inline-block;
-  padding: 0.4em 0.8em;
-  border-radius: 16px;
-  font-size: 0.98em;
+  padding: 0.3em 0.6em;
+  border-radius: 12px;
+  font-size: 0.85em;
   font-weight: bold;
-  margin-left: 0.3em;
+  margin-left: 0.2em;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: all 0.2s ease;
+}
+
+.project-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
 }
 .badge-success {
   background: #219150;
@@ -71,19 +133,19 @@
 }
 .project-card-actions {
   display: flex;
-  gap: 1rem;
+  gap: 0.8rem;
   justify-content: center;
-  padding: 0 1.5rem;
-  margin-top: 0.7em;
+  padding: 0 1.2rem 0.8rem 1.2rem;
+  margin-top: 0.8em;
 }
 .project-card-actions .btn {
   flex: 1 1 0;
   min-width: 0;
-  height: 44px;
-  border-radius: 22px !important;
-  font-size: 1.08em;
+  height: 38px;
+  border-radius: 19px !important;
+  font-size: 0.95em;
   font-weight: bold;
-  padding: 0 1.2em;
+  padding: 0 1em;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -117,31 +179,50 @@
   color: #222;
 }
 .project-card-actions .btn-primary {
-  background: #1976d2;
+  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
   color: #fff;
   border: none;
-  border-radius: 24px !important;
+  border-radius: 19px !important;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.3);
+  transition: all 0.3s ease;
 }
 .project-card-actions .btn-primary:hover, .project-card-actions .btn-primary:focus {
-  background: #1256a0;
+  background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
   color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.4);
 }
 
 .project-results-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1rem;
   margin-top: 1.5rem;
-  max-width: 980px;
+  max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .project-results-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 1100px;
+  }
 }
 
 @media (max-width: 900px) {
   .project-results-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    max-width: 98vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .project-results-grid {
     grid-template-columns: 1fr;
     gap: 1.2rem;
-    max-width: 98vw;
   }
 }
 .pagination {
@@ -179,19 +260,7 @@
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
-.project-card-modern {
-  flex: 1 1 0;
-  max-width: 420px;
-  min-width: 320px;
-  background: #fff;
-  border-radius: 24px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-  padding: 0 0 1.2rem 0;
-  margin: 0;
-  border: none;
-  display: flex;
-  flex-direction: column;
-}
+
 @media (max-width: 900px) {
   .project-details-grid {
     flex-direction: column;
@@ -252,15 +321,56 @@
   width: 100%;
   table-layout: auto;
   word-break: break-word;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.9em;
+  background-color: #fff;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.project-detail-modern {
-  width: 100%;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-  padding: 2.2rem 2.2rem 1.2rem 2.2rem;
+.project-detail-table th {
+  background-color: var(--border-color);
+  color: #fff;
+  text-align: center;
+  padding: 0.75rem;
+  border: 1px solid #e52514;
+}
+
+.project-detail-table td {
+  text-align: center;
+  padding: 0.75rem;
+  border: 1px solid #e52514;
+}
+
+.project-detail-table tr:nth-child(even) {
+  background-color: #f8f6f5;
+}
+
+.project-detail-table tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.project-detail-table tr:hover {
+  background-color: rgba(229, 37, 20, 0.1);
+}
+
+/* Botones dentro de la tabla */
+.project-detail-table .btn-action-xs {
+  font-size: 0.85em;
+  padding: 0.4em 0.6em;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.project-detail-table .btn-action-xs:hover {
+  background-color: #e52514;
+  color: #fff;
+}
+
+.project-detail-table .btn-action-xs.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 .detail-block {
   background: #f9f9f9;
@@ -268,6 +378,12 @@
   padding: 1.1rem 1.2rem;
   margin-bottom: 1.2rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+.detail-block:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 .detail-label {
   background: #f8f9fa;
@@ -292,14 +408,16 @@
   width: 4px;
   height: 100%;
   background-color: #e52514;
-  transition: width 0.3s ease;
+  /* Eliminado: transition: width 0.3s ease; */
 }
+/* Eliminado el hover que cambia el color del texto
 .detail-label:hover {
   color: #fff;
 }
 .detail-label:hover::before {
   width: 100%;
 }
+*/
 .detail-label i {
   color: #6c757d;
   font-size: 1.1em;
@@ -311,10 +429,12 @@
   position: relative;
   z-index: 1;
 }
+/* Eliminado el hover que cambia el color de iconos y texto
 .detail-label:hover i,
 .detail-label:hover span {
   color: #fff;
 }
+*/
 .detail-value {
   padding: 0.3rem 1rem;
 }
@@ -389,15 +509,11 @@
 }
 
 .project-detail-table td:last-child {
+  border: 1px solid #e52514;
+  padding: 0.75rem;
+  min-width: 160px;
   text-align: center;
   vertical-align: middle;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45em;
-  padding: 0.5rem;
-  min-width: 160px;
 }
 
 .project-detail-table td:last-child .btn-action-xs {
@@ -416,6 +532,51 @@
   padding: 0.75rem;
 }
 
+/* Estilo para fila activa (puede tomar acciones) */
+.table-row-active {
+  background-color: rgba(40, 167, 69, 0.1) !important;
+  border-left: 3px solid #28a745;
+}
+
+.table-row-active:hover {
+  background-color: rgba(40, 167, 69, 0.15) !important;
+}
+
+/* Mejoras para el contenedor principal de búsqueda */
+.container.py-4 {
+  max-width: 1450px !important;
+  width: 100% !important;
+  padding-left: 15px !important;
+  padding-right: 15px !important;
+}
+
+/* Asegurar que el contenedor de resultados use todo el ancho disponible */
+#projectResultsContainer {
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Mejoras adicionales para las tarjetas más compactas */
+.project-card-modern:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+  border-color: rgba(229, 37, 20, 0.2);
+}
+
+.project-card-modern:hover .project-card-header-modern {
+  background: linear-gradient(135deg, #7a7a87 0%, #6b6b75 100%);
+}
+
+/* Responsivo mejorado para pantallas muy grandes */
+@media (min-width: 1400px) {
+  .project-results-grid {
+    grid-template-columns: repeat(4, minmax(280px, 320px));
+    max-width: 1400px;
+    justify-content: center;
+  }
+}
+
 .form-main-minimal .input-group-text {
   background: transparent;
   border: none;
@@ -432,5 +593,11 @@
 
 .form-main-minimal .input-group:focus-within .input-group-text {
   border-bottom: 2.5px solid #E52514;
+}
+
+/* Estilo para fechas sin asignar */
+.project-detail-table td.date-unassigned {
+  font-style: italic;
+  color: #8f8f9f;
 }
 

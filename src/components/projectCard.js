@@ -31,11 +31,10 @@ function renderProjectCard(p, actionButtons) {
   const info = stateInfo(p.status?.id || p.state || p.status || p.stateId);
 
   const items =
-    `<li class="project-list-item"><span class='project-label'>ID del proyecto:</span> <span class='project-value'>${id}</span></li>` +
     `<li class="project-list-item"><span class='project-label'>Título:</span> <span class='project-value'>${title}</span></li>` +
     `<li class="project-list-item"><span class='project-label'>Descripción:</span> <span class='project-value'>${description}</span></li>` +
     `<li class="project-list-item"><span class='project-label'>Monto:</span> <span class='project-value'>$ ${amount}</span></li>` +
-    `<li class="project-list-item"><span class='project-label'>Duración (en días):</span> <span class='project-value'>${duration}</span></li>` +
+    `<li class="project-list-item"><span class='project-label'>Duración (días):</span> <span class='project-value'>${duration}</span></li>` +
     (area ? `<li class="project-list-item"><span class='project-label'>Área:</span> <span class='project-value'>${area}</span></li>` : '') +
     (type ? `<li class="project-list-item"><span class='project-label'>Tipo:</span> <span class='project-value'>${type}</span></li>` : '') +
     `<li class="project-list-item"><span class='project-label'>Estado:</span> <span class='project-badge badge-${info.class}'>${info.text}</span></li>`;

@@ -1,0 +1,165 @@
+/* Contenedor del selector de usuario */
+.user-selector-container {
+  margin-left: auto;
+  margin-right: 1rem;
+}
+
+/* Botón del selector de usuario */
+.user-selector-btn {
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.user-selector-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.user-selector-btn:focus {
+  box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.user-selector-btn .user-name {
+  font-weight: 500;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Dropdown del selector de usuario */
+.user-dropdown {
+  min-width: 300px;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+  background-color: #fff;
+}
+
+.user-dropdown .dropdown-item {
+  padding: 0.75rem 1rem;
+  border: none;
+  background-color: transparent;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.user-dropdown .dropdown-item:hover {
+  background-color: #f8f9fa;
+  color: #333;
+}
+
+.user-dropdown .dropdown-item.active {
+  background-color: var(--bs-primary);
+  color: #fff;
+}
+
+.user-dropdown .dropdown-item.active:hover {
+  background-color: var(--bs-primary);
+  color: #fff;
+}
+
+/* Información del usuario en el dropdown */
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.user-main {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.user-display-name {
+  font-size: 0.95rem;
+}
+
+.user-details {
+  margin-left: 1.5rem;
+}
+
+.user-details .text-muted {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.dropdown-item.active .user-details .text-muted {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .user-selector-container {
+    margin-right: 0.5rem;
+  }
+  
+  .user-selector-btn {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+  }
+  
+  .user-selector-btn .user-name {
+    max-width: 100px;
+  }
+  
+  .user-dropdown {
+    min-width: 280px;
+  }
+}
+
+@media (max-width: 576px) {
+  .user-selector-btn .user-name {
+    display: none;
+  }
+  
+  .user-selector-btn::after {
+    margin-left: 0;
+  }
+  
+  .user-dropdown {
+    min-width: 250px;
+  }
+}
+
+/* Animaciones */
+.user-dropdown {
+  animation: fadeInDown 0.3s ease;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Indicador de usuario activo */
+.user-dropdown .dropdown-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: #fff;
+  border-radius: 0 3px 3px 0;
+}

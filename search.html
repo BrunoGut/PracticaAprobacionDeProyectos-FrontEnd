@@ -8,6 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/userSelector.css" />
   <link rel="stylesheet" href="css/forms.css" />
   <link rel="stylesheet" href="css/projectCard.css" />
 </head>
@@ -15,40 +16,53 @@
   <nav class="navbar navbar-dark" id="mainNav"></nav>
 
   <main class="container py-4">
-    <div class="form-minimal-container">
-      <div class="form-side-minimal">
-        <div class="side-line"></div>
-        <h2 class="side-title-minimal">Buscar Proyecto</h2>
-        <p class="side-desc-minimal">Utilizá los filtros para encontrar proyectos existentes en la plataforma.</p>
-      </div>
-      <div class="form-main-minimal">
-        <form id="searchForm" class="form">
-          <input type="hidden" id="id" name="id" />
-          <div class="mb-3">
-            <label for="title" class="form-label">Título</label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="Título" />
-          </div>
-          <div class="mb-3">
-            <label for="state" class="form-label">Estado</label>
-            <select class="form-select" id="state" name="status"></select>
-          </div>
-          <div class="mb-3">
-            <label for="applicant" class="form-label">Aplicante</label>
-            <select class="form-select" id="applicant" name="applicant"></select>
-          </div>
-          <div class="mb-3">
-            <label for="approver" class="form-label">Aprobador</label>
-            <select class="form-select" id="approver" name="approver"></select>
-          </div>
-          <button type="submit" class="btn btn-success w-100">Buscar</button>
-          <div class="btn-group-row">
-            <a href="index.html" class="btn btn-volver">Volver al inicio</a>
-            <button type="button" id="clearBtn" class="btn btn-limpiar">Limpiar</button>
-          </div>
-        </form>
-        <div id="result" class="result"></div>
-      </div>
+    <!-- Título con barra animada -->
+    <div class="title-section">
+      <div class="side-line"></div>
+      <h2 class="side-title">Buscar Proyecto</h2>
+      <p class="side-desc">Utilizá los filtros para encontrar proyectos existentes en la plataforma.</p>
     </div>
+
+    <!-- Botón de filtro -->
+    <div class="filter-section">
+      <button id="filterToggleBtn" class="filter-toggle-btn">
+        <i class="bi bi-funnel"></i>
+        <span class="filter-text">Filtrar</span>
+      </button>
+    </div>
+
+    <!-- Barra de filtros desplegable -->
+    <div id="filterBar" class="filter-bar">
+      <form id="searchForm" class="filter-form">
+        <input type="hidden" id="id" name="id" />
+        <div class="filter-item">
+          <label for="title" class="filter-label">Título</label>
+          <input type="text" class="filter-input" id="title" name="title" placeholder="Título" />
+        </div>
+        <div class="filter-item">
+          <label for="state" class="filter-label">Estado</label>
+          <select class="filter-select" id="state" name="status"></select>
+        </div>
+        <div class="filter-item">
+          <label for="applicant" class="filter-label">Aplicante</label>
+          <select class="filter-select" id="applicant" name="applicant"></select>
+        </div>
+        <div class="filter-item">
+          <label for="approver" class="filter-label">Aprobador</label>
+          <select class="filter-select" id="approver" name="approver"></select>
+        </div>
+        <div class="filter-actions">
+          <button type="submit" class="filter-btn filter-btn-search">
+            <i class="bi bi-search"></i> Buscar
+          </button>
+          <button type="button" id="clearBtn" class="filter-btn filter-btn-clear">
+            <i class="bi bi-trash"></i> Limpiar
+          </button>
+        </div>
+      </form>
+      <div id="result" class="result"></div>
+    </div>
+
     <div id="projectResultsContainer"></div>
   </main>
 
@@ -63,6 +77,7 @@
   <script src="src/config.js"></script>
   <script src="src/forms.js"></script>
   <script src="src/components/projectCard.js"></script>
+  <script src="src/components/userSelector.js"></script>
   <script src="src/search.js"></script>
   <script src="src/nav.js"></script>
   <script>

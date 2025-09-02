@@ -19,7 +19,7 @@ function setupForm(config) {
     }
 
   if (config.confirmBeforeSubmit && !form._confirmed) {
-    const defaultFields = ['title', 'description', 'estimatedAmount', 'estimatedDuration'];
+    const defaultFields = ['Title', 'Description', 'Amount', 'Duration'];
     let fieldsToShow = defaultFields;
     let title = '¿Confirmar creación del proyecto?';
     let message;
@@ -36,21 +36,38 @@ function setupForm(config) {
     }
 
     if (!message) {
-      const fieldLabels = {
-        title: 'Titulo',
-        description: 'Descripcion',
-        estimatedAmount: 'Monto',
-        estimatedDuration: 'Duracion (en dias)'
-      };
+      const fieldData = [
+        { key: 'Title', label: 'Título', icon: 'bi-bookmark', class: 'title' },
+        { key: 'Description', label: 'Descripción', icon: 'bi-card-text', class: 'description' },
+        { key: 'Amount', label: 'Monto', icon: 'bi-currency-dollar', class: 'amount' },
+        { key: 'Duration', label: 'Duración', icon: 'bi-calendar-event', class: 'duration' }
+      ];
+      
       message = fieldsToShow
         .map(key => {
+          const field = fieldData.find(f => f.key === key);
+          if (!field) return '';
+          
           let value = payload[key] ?? '';
-          if (key === 'estimatedAmount' && value !== '') {
-            value = `$ ${value}`;
+          if (key === 'Amount' && value !== '') {
+            value = `$ ${Number(value).toLocaleString('es-AR', {minimumFractionDigits: 2})}`;
+          } else if (key === 'Duration' && value !== '') {
+            value = `${value} días`;
           }
-          return `<strong>${fieldLabels[key] || key}:</strong> ${value}`;
+          
+          return `
+            <div class="summary-field">
+              <div class="field-icon ${field.class}">
+                <i class="${field.icon}"></i>
+              </div>
+              <div class="field-content">
+                <div class="field-label">${field.label}</div>
+                <div class="field-value ${field.class}">${value || 'No especificado'}</div>
+              </div>
+            </div>
+          `;
         })
-        .join('<br/>');
+        .join('');
     }
 
     showConfirmModal({
@@ -59,13 +76,37 @@ function setupForm(config) {
       onConfirm: () => {
         form._confirmed = true;
         form.requestSubmit();
-      },
-      buttonStyle: 'border-radius: 24px;'
+      }
     });
     return;
   }
 
     form._confirmed = false;
+
+    // Permitir modificar el payload antes del envío
+    if (typeof config.beforeSubmit === 'function') {
+      try {
+        const modifiedPayload = config.beforeSubmit(payload);
+        if (modifiedPayload) {
+          Object.assign(payload, modifiedPayload);
+        }
+      } catch (error) {
+        // Manejar errores del beforeSubmit
+        resultDiv.innerHTML =
+          '<div class="alert alert-warning d-flex align-items-center" style="background:#fff3cd;color:#856404;border-color:#ffeeba;">' +
+          '<i class="bi bi-exclamation-triangle-fill me-2" style="color:#856404;"></i>' +
+          error.message +
+          '</div>';
+        resultDiv.classList.add('error');
+        resultDiv.classList.remove('success');
+        
+        if (submitBtn) {
+          submitBtn.innerHTML = originalBtnHtml;
+          submitBtn.disabled = false;
+        }
+        return;
+      }
+    }
 
     const submitBtn = form.querySelector('[type="submit"]');
     let originalBtnHtml;

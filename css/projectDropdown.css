@@ -21,10 +21,30 @@
   display: block;
   color: #8F8F9F;
   font-size: 0.93em;
+}
+
+.selected-project-box {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+}
+
+.selected-project-info {
+  line-height: 1.2;
+}
+
+.selected-project-title {
+  font-weight: bold;
+  color: #2c3e50;
+  font-size: 1.1em;
+  display: block;
+}
+
 .selected-project-desc {
-  color: #8F8F9F;
+  color: #6c757d;
   font-style: italic;
-  font-size: 0.98em;
+  font-size: 0.9em;
   display: block;
   margin-top: 2px;
 }

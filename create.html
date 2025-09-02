@@ -8,8 +8,128 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/nav.css" />
+  <link rel="stylesheet" href="css/userSelector.css" />
   <link rel="stylesheet" href="css/forms.css" />
-  <link rel="stylesheet" href="confirmModal.css" />
+  <link rel="stylesheet" href="css/confirmModal.css" />
+  <style>
+    /* Eliminar outline azul de todos los inputs */
+    .form-control:focus,
+    .form-select:focus,
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none !important;
+      box-shadow: none !important;
+      background-color: transparent !important;
+    }
+    
+    /* Estilos para la barra de progreso */
+    .progress-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      margin: 2rem auto;
+      padding: 0;
+      max-width: 500px;
+    }
+    
+    .progress-container::before {
+      content: '';
+      position: absolute;
+      top: 25px;
+      left: 50px;
+      right: 50px;
+      height: 3px;
+      background-color: #E5E7EB;
+      z-index: 1;
+      width: calc(100% - 100px);
+    }
+    
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      flex: 1;
+      margin: 0 10px;
+    }
+    
+    .progress-step:first-child {
+      margin-left: 0;
+    }
+    
+    .progress-step:last-child {
+      flex: 1;
+      margin-right: 0;
+    }
+    
+    .step-circle {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background-color: #E5E7EB;
+      color: #6B7280;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 8px;
+      transition: all 0.3s ease;
+    }
+    
+    .step-label {
+      font-size: 12px;
+      color: #6B7280;
+      text-align: center;
+      max-width: 80px;
+      line-height: 1.2;
+      transition: color 0.3s ease;
+    }
+    
+    .progress-step.active .step-circle {
+      background-color: #E52514;
+      color: white;
+    }
+    
+    .progress-step.active .step-label {
+      color: #E52514;
+      font-weight: 600;
+    }
+    
+    .progress-step.completed .step-circle {
+      background-color: #10B981;
+      color: white;
+    }
+    
+    .progress-step.completed .step-label {
+      color: #10B981;
+      font-weight: 600;
+    }
+    
+    /* Línea de progreso dinámica */
+    .progress-line {
+      position: absolute;
+      top: 25px;
+      left: 50px;
+      height: 3px;
+      background-color: #E52514;
+      z-index: 1;
+      transition: width 0.5s ease;
+      width: 0%;
+      max-width: calc(100% - 100px);
+    }
+    
+    /* Estilos para botón deshabilitado */
+    .btn-success:disabled {
+      background-color: #6c757d !important;
+      border-color: #6c757d !important;
+      cursor: not-allowed !important;
+      opacity: 0.6 !important;
+    }
+  </style>
 </head>
 <body class="body">
   <nav class="navbar navbar-dark" id="mainNav"></nav>
@@ -20,58 +140,89 @@
         <div class="side-line"></div>
         <h2 class="side-title-minimal">Crear Proyecto</h2>
         <p class="side-desc-minimal">Completá el formulario para registrar un nuevo proyecto en la plataforma.</p>
+        
+        <!-- Botones de acción al extremo izquierdo -->
+        <div class="d-flex justify-content-start gap-2 mt-3">
+          <a class="btn btn-secondary" href="index.html" title="Volver al inicio"><i class="bi bi-house"></i></a>
+          <button class="btn btn-limpiar" id="clearBtn" title="Limpiar"><i class="bi bi-trash"></i></button>
+        </div>
       </div>
       <div class="form-main-minimal">
         <h1 class="mb-4 text-center d-none">Crear Nuevo Proyecto</h1>
+        
+        <!-- Barra de progreso -->
+        <div class="progress-container mb-4">
+          <div class="progress-line" id="progressLine"></div>
+          <div class="progress-step active" data-step="1">
+            <div class="step-circle">1</div>
+            <div class="step-label">Datos básicos</div>
+          </div>
+          <div class="progress-step" data-step="2">
+            <div class="step-circle">2</div>
+            <div class="step-label">Detalles financieros</div>
+          </div>
+          <div class="progress-step" data-step="3">
+            <div class="step-circle">3</div>
+            <div class="step-label">Configuración</div>
+          </div>
+          <div class="progress-step" data-step="4">
+            <div class="step-circle">4</div>
+            <div class="step-label">Finalización</div>
+          </div>
+        </div>
+        
         <form id="createForm" class="form">
           <div class="mb-3">
-            <label for="title" class="form-label">Título</label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="Título del proyecto" />
+            <label for="Title" class="form-label">Título</label>
+            <input type="text" class="form-control" id="Title" name="Title" placeholder="Título del proyecto" />
           </div>
           <div class="mb-3">
-            <label for="description" class="form-label">Descripción</label>
-            <input type="text" class="form-control" id="description" name="description" placeholder="Descripción" />
+            <label for="Description" class="form-label">Descripción</label>
+            <input type="text" class="form-control" id="Description" name="Description" placeholder="Descripción" />
           </div>
           <div class="mb-3">
-            <label for="estimatedAmount" class="form-label">Monto Estimado</label>
+            <label for="Amount" class="form-label">Monto Estimado</label>
             <div class="input-group">
               <span class="input-group-text">$</span>
               <input
                 type="number"
                 class="form-control"
-                id="estimatedAmount"
-                name="estimatedAmount"
+                id="Amount"
+                name="Amount"
                 placeholder="Monto"
               />
             </div>
           </div>
           <div class="mb-3">
-            <label for="estimatedDuration" class="form-label">Duración Estimada (días)</label>
+            <label for="Duration" class="form-label">Duración Estimada (días)</label>
             <input
               type="number"
               class="form-control"
-              id="estimatedDuration"
-              name="estimatedDuration"
+              id="Duration"
+              name="Duration"
               placeholder="Duración"
             />
           </div>
           <div class="mb-3">
-            <label for="areaId" class="form-label">Área</label>
-            <select class="form-select" id="areaId" name="areaId"></select>
+            <label for="Area" class="form-label">Área</label>
+            <select class="form-select" id="Area" name="Area"></select>
           </div>
+          <!--div class="mb-3">
+            <label class="form-label">Usuario Creador</label>
+            <div id="userDisplay" class="user-display-field">
+              <!-- El usuario se mostrará aquí dinámicamente -->
+            <!--</div>
+            <input type="hidden" id="User" name="User" />
+            <small class="form-text text-muted">
+              <i class="bi bi-info-circle me-1"></i>
+              Para cambiar el usuario, utiliza el selector en la barra de navegación
+            </small>
+          </div>-->
           <div class="mb-3">
-            <label for="user" class="form-label">Usuario</label>
-            <select class="form-select" id="user" name="user"></select>
+            <label for="Type" class="form-label">Tipo de Proyecto</label>
+            <select class="form-select" id="Type" name="Type"></select>
           </div>
-          <div class="mb-3">
-            <label for="typeId" class="form-label">Tipo de Proyecto</label>
-            <select class="form-select" id="typeId" name="typeId"></select>
-          </div>
-          <button type="submit" class="btn btn-success w-100">Crear proyecto</button>
-          <div class="btn-group-row">
-            <a href="index.html" class="btn btn-volver">Volver al inicio</a>
-            <button type="button" id="clearBtn" class="btn btn-limpiar">Limpiar</button>
-          </div>
+          <button type="submit" class="btn btn-success w-100" id="createProjectBtn" disabled>Crear proyecto</button>
         </form>
         <div id="result" class="result"></div>
       </div>
@@ -87,6 +238,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="src/config.js"></script>
+  <script src="src/components/userSelector.js"></script>
   <script src="src/forms.js"></script>
   <script src="src/components/projectCard.js"></script>
   <script src="src/create.js"></script>
@@ -98,6 +250,129 @@
       if (clearBtn) {
         clearBtn.addEventListener('click', function() {
           clearBtn.blur();
+        });
+      }
+      
+      // Gestión de la barra de progreso
+      const progressSteps = document.querySelectorAll('.progress-step');
+      const progressLine = document.getElementById('progressLine');
+      
+      // Mapeo de campos a pasos
+      const fieldToStep = {
+        'Title': 1,
+        'Description': 1,
+        'Amount': 2,
+        'Duration': 2,
+        'Area': 3,
+        'Type': 4
+      };
+      
+      function updateProgress() {
+        const fields = ['Title', 'Description', 'Amount', 'Duration', 'Area', 'Type'];
+        let completedFields = 0;
+        let currentStep = 1;
+        
+        // Contar campos completados
+        fields.forEach(fieldId => {
+          const field = document.getElementById(fieldId);
+          if (field && field.value.trim() !== '') {
+            completedFields++;
+            currentStep = Math.max(currentStep, fieldToStep[fieldId]);
+          }
+        });
+        
+        // Calcular progreso por pasos
+        const step1Fields = ['Title', 'Description'];
+        const step2Fields = ['Amount', 'Duration'];
+        const step3Fields = ['Area']; // Solo Área ya que User está comentado
+        const step4Fields = ['Type'];
+        
+        const step1Complete = step1Fields.every(id => {
+          const field = document.getElementById(id);
+          return field && field.value.trim() !== '';
+        });
+        
+        const step2Complete = step2Fields.every(id => {
+          const field = document.getElementById(id);
+          return field && field.value.trim() !== '';
+        });
+        
+        const step3Complete = step3Fields.every(id => {
+          const field = document.getElementById(id);
+          return field && field.value.trim() !== '';
+        });
+        
+        const step4Complete = step4Fields.every(id => {
+          const field = document.getElementById(id);
+          return field && field.value.trim() !== '';
+        });
+        
+        // Actualizar estados de los pasos
+        progressSteps.forEach((step, index) => {
+          const stepNumber = index + 1;
+          step.classList.remove('active', 'completed');
+          
+          if (stepNumber === 1 && step1Complete) {
+            step.classList.add('completed');
+          } else if (stepNumber === 2 && step2Complete) {
+            step.classList.add('completed');
+          } else if (stepNumber === 3 && step3Complete) {
+            step.classList.add('completed');
+          } else if (stepNumber === 4 && step4Complete) {
+            step.classList.add('completed');
+          } else {
+            // Determinar paso activo basado en campos completados
+            if (stepNumber === 1 && (!step1Complete)) {
+              step.classList.add('active');
+            } else if (stepNumber === 2 && step1Complete && !step2Complete) {
+              step.classList.add('active');
+            } else if (stepNumber === 3 && step1Complete && step2Complete && !step3Complete) {
+              step.classList.add('active');
+            } else if (stepNumber === 4 && step1Complete && step2Complete && step3Complete && !step4Complete) {
+              step.classList.add('active');
+            }
+          }
+        });
+        
+        // Actualizar línea de progreso (se detiene antes del último círculo)
+        let progressPercentage = 0;
+        if (step1Complete) progressPercentage = 33.33;
+        if (step1Complete && step2Complete) progressPercentage = 66.66;
+        if (step1Complete && step2Complete && step3Complete) progressPercentage = 100;
+        // No aumenta más al completar step4 para que se detenga antes del último círculo
+        
+        progressLine.style.width = progressPercentage + '%';
+        
+        // Habilitar/deshabilitar botón de crear proyecto
+        const createBtn = document.getElementById('createProjectBtn');
+        const allFieldsComplete = step1Complete && step2Complete && step3Complete && step4Complete;
+        
+        if (createBtn) {
+          createBtn.disabled = !allFieldsComplete;
+          if (allFieldsComplete) {
+            createBtn.textContent = 'Crear proyecto';
+            createBtn.title = '';
+          } else {
+            createBtn.textContent = 'Crear Proyecto';
+            createBtn.title = 'Complete todos los campos del formulario para habilitar la creación del proyecto';
+          }
+        }
+      }
+      
+      // Agregar listeners a todos los campos
+      const formFields = document.querySelectorAll('#createForm input, #createForm select');
+      formFields.forEach(field => {
+        field.addEventListener('input', updateProgress);
+        field.addEventListener('change', updateProgress);
+      });
+      
+      // Actualizar progreso inicial
+      updateProgress();
+      
+      // Actualizar cuando se limpie el formulario
+      if (clearBtn) {
+        clearBtn.addEventListener('click', function() {
+          setTimeout(updateProgress, 100); // Delay para que se limpien los campos primero
         });
       }
     });
